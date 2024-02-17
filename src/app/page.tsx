@@ -1,44 +1,34 @@
+"use client"
+import { useState} from 'react'
 import Image from "next/image";
 import styles from "./page.module.css";
+import SelAName from "@/components/sel_a_name";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Home() {
+    
+  
+  
+  const [selIndex, setSelIndex] = useState<number | null>(null);
+
+  const selOnClickEvent = (index: number) =>{
+    console.log("Halli hallo2!!!", index);
+    setSelIndex(index);
+  }
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+        
       </div>
 
       <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+        <p>Draw a name from a list. The draw takes into account the results of previous times. Thus, all names are drawn over time.</p>
+        <p>Today the following name has been selected: {selIndex?selIndex + 1:'NO SELECTION'}</p>
+        <h3>Drawn names</h3>
+        <p>Select a name between the name drawn</p>
+        <SelAName setSelIndex={selOnClickEvent} />
       </div>
-
       <div className={styles.grid}>
         <a
           href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
