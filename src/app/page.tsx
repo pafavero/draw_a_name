@@ -1,20 +1,20 @@
-"use client"
-import { useState} from 'react'
 import Image from "next/image";
 import styles from "./page.module.css";
-import SelAName from "@/components/sel_a_name";
+import MainContainer from "@/components/main_container";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { promises as fs } from 'fs';
 
-export default function Home() {
-    
-  
-  
-  const [selIndex, setSelIndex] = useState<number | null>(null);
+export default async function Home() {
+  // read the file server-side but async!
+  const fileContent = await fs.readFile(process.cwd() + '/public/initial_list.txt', 'utf8');
+  const initialList = fileContent.split(',');
+  console.log('fileContent', fileContent, initialList);
 
-  const selOnClickEvent = (index: number) =>{
-    console.log("Halli hallo2!!!", index);
-    setSelIndex(index);
-  }
+  const results = await fs.readFile(process.cwd() + '/public/results.json', 'utf8');
+  const jsonResult = JSON.parse(results);
+  console.log('jsonResult', jsonResult);
+
+  const currResult = null;
 
   return (
     <main className={styles.main}>
@@ -23,11 +23,7 @@ export default function Home() {
       </div>
 
       <div className={styles.center}>
-        <p>Draw a name from a list. The draw takes into account the results of previous times. Thus, all names are drawn over time.</p>
-        <p>Today the following name has been selected: {selIndex?selIndex + 1:'NO SELECTION'}</p>
-        <h3>Drawn names</h3>
-        <p>Select a name between the name drawn</p>
-        <SelAName setSelIndex={selOnClickEvent} />
+        <MainContainer initialList={initialList} currResult={currResult} />
       </div>
       <div className={styles.grid}>
         <a

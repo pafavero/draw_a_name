@@ -1,16 +1,21 @@
 
-interface StaticObj {
-    name: string
-    weight: number
-  }
+export interface StaticObj {
+  name: string
+  weight: number
+}
   
-  
-  function shuffle(array: StaticObj[]) {
+
+export class Utils{
+
+  static shuffle(initialList: string[]) {
     /*
      * https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
      * Fisher–Yates shuffle
      */
-    let currentIndex = array.length;
+
+    let initialMap: StaticObj[] = initialList.map((item) => {return {name: item, weight: 1}});
+
+    let currentIndex = initialMap.length;
     let randomIndex;
   
     // While there remain elements to shuffle.
@@ -23,20 +28,21 @@ interface StaticObj {
         
         // And swap it with the current element.
         // console.log('inversion random <-> current', array[currentIndex], array[randomIndex]);
-        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        [initialMap[currentIndex], initialMap[randomIndex]] = [initialMap[randomIndex], initialMap[currentIndex]];
     }
   
-    return array;
+    return initialMap;
   }
   
   
-  function changeWeight(weightList: StaticObj[], selIndex: number): StaticObj[] {
+  static changeWeight(nameList: StaticObj[], selName: string): StaticObj[] {
     const REDUCE_WEIGHT = 0.8;
-    const ADD_WEIGHT = REDUCE_WEIGHT / (weightList.length - 1);
+    const ADD_WEIGHT = REDUCE_WEIGHT / (nameList.length - 1);
+    const weightList = [...nameList];
     
     let currentIndex = weightList.length;
     for (let currentIndex = 0; currentIndex < weightList.length; currentIndex++) {
-      if(selIndex == currentIndex)
+      if(weightList[currentIndex].name == selName)
         weightList[currentIndex].weight -=  REDUCE_WEIGHT
       else
         weightList[currentIndex].weight += ADD_WEIGHT
@@ -44,7 +50,7 @@ interface StaticObj {
     return weightList;
   }
   
-  function checkSum(nameList: StaticObj[]){
+  static checkSum(nameList: StaticObj[]){
     // use reduce() method to find the sum
     var sum = nameList.reduce((accumulator, currentValue) => {
       return accumulator + currentValue.weight
@@ -53,6 +59,7 @@ interface StaticObj {
     console.log('sum', sum);
   
   }
+}
   
 export class NameStore {
     // https://stackoverflow.com/questions/35210406/class-definition-confuse-in-typescript-and-es6

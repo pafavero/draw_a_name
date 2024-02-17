@@ -2,6 +2,7 @@
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import {NameStore} from "@/utils/utils";
+import {Utils, StaticObj} from "@/utils/utils";
 
 const ElementStyle = styled.div`
     
@@ -15,23 +16,23 @@ const ElementStyle = styled.div`
 
 `;
 
-interface StaticObj {
-    name: string
-    weight: number
-}
 
 type Props = {
-    setSelIndex: Function;
+    nameList: StaticObj[]
+    setSelName: Function;
 };
 
 function SelAName(props: Props) {
     const nameStore = new NameStore()
-    const initNameList: StaticObj[] = nameStore.names;
 
-    const selOnClickEvent = (evt: React.MouseEvent<HTMLElement>, index: number) =>{
-        console.log("Halli hallo!!!", evt, index);
-        props.setSelIndex(index);
+    const selOnClickEvent = (evt: React.MouseEvent<HTMLElement>, name: string) =>{
+        console.log("selOnClickEvent() in SelAName", evt, name);
+        props.setSelName(name);
     }
+
+    const orderListBasedOnWeght: StaticObj[] = [...props.nameList]
+    orderListBasedOnWeght.sort((a: StaticObj,b: StaticObj) => b.weight - a.weight)
+    console.log('list to print====> ', orderListBasedOnWeght);
 
     const isWinner = (i: number) => {if(i == 0) return <span>  &lt;== is winner!</span>; else '';}
 
@@ -39,10 +40,10 @@ function SelAName(props: Props) {
         <ElementStyle>
             <div>
                 <div className='div_name_list'>
-                    {initNameList.map(function(obj: StaticObj, i: number){
+                    {orderListBasedOnWeght.map(function(obj: StaticObj, i: number){
                         const keyItem = 'div_name' + i
                         return <div key={keyItem} className='div_name'>{i + 1}. {obj.name}<Button type="button" title={obj.name} 
-                        onClick={(ev) => selOnClickEvent(ev, i)} >Sel</Button>{isWinner(i)}</div>;
+                        onClick={(ev) => selOnClickEvent(ev, obj.name)} >Sel</Button>{isWinner(i)}</div>;
                     })}
                 </div>
             </div>
