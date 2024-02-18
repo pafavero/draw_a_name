@@ -17,6 +17,11 @@ const ElementStyle = styled.div`
         margin: 2px;
     }
 
+    .sel_name{
+        font-weight: bold;
+        background-color: lightgray;
+    }
+
 `;
 
 
@@ -34,7 +39,7 @@ function MainContainer(props: Props) {
         setSelName(name);
         // console.log("nameList && selName", nameList, selName);
         if(nameList){
-            setNameList(Utils.changeWeight(nameList, name))
+            // setNameList(Utils.changeWeight(nameList, name))
         }
 
     }
@@ -49,12 +54,12 @@ function MainContainer(props: Props) {
             <p>Draw a name from a list. The draw takes into account the results of previous times. Thus, all names are drawn over time.</p>
             
             {nameList ? <>
-                <p>Today the following name has been selected: {selName?selName:'NO SELECTION'}</p>
+                <p>Today the following name has been selected: <span className='sel_name'>{selName?selName:'NO SELECTION'}</span></p>
                 <p>Select a name between the name drawn</p>
-                <SelAName nameList={nameList} setSelName={selOnClickEvent} />
+                <SelAName nameList={nameList} selName={selName} setSelName={selOnClickEvent} />
             </>:
             <>
-                <Button type="button" title="sdfdsfds" onClick={(ev) => shuffleList(ev)} >Start the draw of names</Button>
+                <Button type="button" title="Start the draw of names" onClick={(ev) => shuffleList(ev)} >Start the draw of names</Button>
             </>}
             
             <div className='div_result'>
