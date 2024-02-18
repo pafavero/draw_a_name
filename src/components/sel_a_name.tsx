@@ -1,8 +1,7 @@
 'use client'
-import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import {NameStore} from "@/utils/utils";
-import {StaticObj} from "@/utils/utils";
+import {StatisticalObj, Utils} from "@/utils/utils";
 
 const ElementStyle = styled.div`
     display: block;
@@ -13,7 +12,7 @@ const ElementStyle = styled.div`
     margin: 3px;
     overflow: hidden;
 
-    :hover{
+    &.is_active:hover{
         border-width: 3px;
         margin: 0 3px;
         cursor: pointer; 
@@ -31,9 +30,10 @@ const ElementStyle = styled.div`
 `;
 
 type Props = {
-    obj: StaticObj;
+    obj: StatisticalObj;
     index: number;
     isSelected: boolean;
+    isActive: boolean;
     setSelName: Function;
 };
 
@@ -42,7 +42,8 @@ function SelAName(props: Props) {
 
     const selOnClickEvent = (evt: React.MouseEvent<HTMLElement>, name: string) =>{
         // console.log("selOnClickEvent() in SelAName", evt, name);
-        props.setSelName(name);
+        if (props.isActive)
+            props.setSelName(name);
     }
 
     // const isWinner = (i: number) => {if(i == 0) return <span>  &lt;== is winner!</span>; else '';}
@@ -51,10 +52,15 @@ function SelAName(props: Props) {
     if (props.isSelected){
         className += ' sel';
     }
+    if (props.isActive){
+        className += ' is_active';
+    }
 
+    const time = props.obj.time?Utils.dateInHhMmYyMmDd(props.obj.time):'';
     return (
-        <ElementStyle className={className} onClick={(ev: React.MouseEvent<HTMLInputElement>) => selOnClickEvent(ev, props.obj.name)} title={'Select ' + props.obj.name} >
-            {props.index + 1}. {props.obj.name}
+        <ElementStyle className={className} onClick={(ev: React.MouseEvent<HTMLInputElement>) => selOnClickEvent(ev, props.obj.name)} 
+                title={'Select ' + props.obj.name} >
+            {props.index + 1}. {props.obj.name} {time}
         </ElementStyle >
 
     );

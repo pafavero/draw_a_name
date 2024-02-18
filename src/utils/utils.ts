@@ -1,7 +1,8 @@
 
-export interface StaticObj {
+export interface StatisticalObj {
   name: string
   weight: number
+  time: Date | null
 }
   
 
@@ -13,7 +14,7 @@ export class Utils{
      * Fisher–Yates shuffle
      */
 
-    let initialMap: StaticObj[] = initialList.map((item) => {return {name: item, weight: 1}});
+    let initialMap: StatisticalObj[] = initialList.map((item) => {return {name: item, weight: 1, time: null}});
 
     let currentIndex = initialMap.length;
     let randomIndex;
@@ -35,22 +36,23 @@ export class Utils{
   }
   
   
-  static changeWeight(nameList: StaticObj[], selName: string): StaticObj[] {
+  static changeWeight(nameList: StatisticalObj[], selName: string): StatisticalObj[] {
     const REDUCE_WEIGHT = 0.8;
     const ADD_WEIGHT = REDUCE_WEIGHT / (nameList.length - 1);
     const weightList = [...nameList];
     
     let currentIndex = weightList.length;
     for (let currentIndex = 0; currentIndex < weightList.length; currentIndex++) {
-      if(weightList[currentIndex].name == selName)
-        weightList[currentIndex].weight -=  REDUCE_WEIGHT
-      else
+      if(weightList[currentIndex].name == selName){
+        weightList[currentIndex].weight -=  REDUCE_WEIGHT;
+        weightList[currentIndex].time = new Date();
+      }else
         weightList[currentIndex].weight += ADD_WEIGHT
     }
     return weightList;
   }
   
-  static checkSum(nameList: StaticObj[]){
+  static checkSum(nameList: StatisticalObj[]){
     // use reduce() method to find the sum
     var sum = nameList.reduce((accumulator, currentValue) => {
       return accumulator + currentValue.weight
@@ -59,20 +61,40 @@ export class Utils{
     console.log('sum', sum);
   
   }
+
+  static padTwoDigits(num: number) {
+    return num.toString().padStart(2, "0");
+  }
+
+  static dateInHhMmYyMmDd(date: Date, dateDiveder: string = "-") {
+  
+    return (
+      [
+        Utils.padTwoDigits(date.getHours()),
+        Utils.padTwoDigits(date.getMinutes()),
+      ].join(":") +
+      " " +
+      [
+        Utils.padTwoDigits(date.getDate()),
+        Utils.padTwoDigits(date.getMonth() + 1),
+        date.getFullYear(),
+      ].join(dateDiveder)
+    );
+  }
 }
   
 export class NameStore {
     // https://stackoverflow.com/questions/35210406/class-definition-confuse-in-typescript-and-es6
-    names: StaticObj[] = [
-        {name: "XXX", weight: 1},
-        {name: "Susanna", weight: 1}, 
-        {name: "Noah", weight: 1}, 
-        {name: "Emma", weight: 1}, 
-        {name: "Oliver", weight: 1}, 
-        {name: "Charlotte", weight: 1}, 
-        {name: "James", weight: 1}, 
-        {name: "Amelia", weight: 1}
-    ]
+    // names: StatisticalObj[] = [
+    //     {name: "XXX", weight: 1},
+    //     {name: "Susanna", weight: 1}, 
+    //     {name: "Noah", weight: 1}, 
+    //     {name: "Emma", weight: 1}, 
+    //     {name: "Oliver", weight: 1}, 
+    //     {name: "Charlotte", weight: 1}, 
+    //     {name: "James", weight: 1}, 
+    //     {name: "Amelia", weight: 1}
+    // ]
     
     constructor(){
         
@@ -81,14 +103,14 @@ export class NameStore {
       
 //     //shuffle the init list
 //     console.log("  ");
-//     const shuffleNameList: StaticObj[]  = shuffle(initNameList);
+//     const shuffleNameList: StatisticalObj[]  = shuffle(initNameList);
 //     console.log(shuffleNameList);
 //     checkSum(shuffleNameList);
   
   
 //     // suppose to peak one pos 0
 //     console.log("  ");
-//     let weightNameList: StaticObj[] = changeWeight(shuffleNameList, 0);
+//     let weightNameList: StatisticalObj[] = changeWeight(shuffleNameList, 0);
 //     console.log(weightNameList);
 //     checkSum(weightNameList);
   
@@ -102,8 +124,8 @@ export class NameStore {
   
 //     // list to print
 //     console.log("  ");
-//     const orderListBasedOnWeght: StaticObj[] = [...weightNameList]
-//     orderListBasedOnWeght.sort((a: StaticObj,b: StaticObj) => b.weight - a.weight)
+//     const orderListBasedOnWeght: StatisticalObj[] = [...weightNameList]
+//     orderListBasedOnWeght.sort((a: StatisticalObj,b: StatisticalObj) => b.weight - a.weight)
 //     console.log('list to print====> ', orderListBasedOnWeght);
   
   

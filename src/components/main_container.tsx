@@ -2,16 +2,11 @@
 import { useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
-import {Utils, StaticObj} from "@/utils/utils";
+import {Utils, StatisticalObj} from "@/utils/utils";
 import NameListCntr from "@/components/name_list_ctnr";
 import Modal from './modal';
 
 const ElementStyle = styled.div`
-    
-
-    button{
-        margin: 2px;
-    }
 
     .sel_name{
         font-weight: bold;
@@ -29,30 +24,33 @@ type Props = {
 function MainContainer(props: Props) {
     const [selName, setSelName] = useState<string | null>(null);
     const [tempSelName, setTempSelName] = useState<string | null>(null);
-    const [nameList, setNameList] = useState<StaticObj[] | null>(null);
+    const [nameList, setNameList] = useState<StatisticalObj[] | null>(null);
     const [isShownModal, setShowModal] = useState<boolean>(false);
 
-    const selOnClickEvent = (name: string) =>{
+    const selOnClickEvent = (name: string | null) =>{
         //   console.log("selOnClickEvent(), index:", index);
-        setTempSelName(name)
-        setShowModal(true)
+        if (name){
+            setTempSelName(name)
+            setShowModal(true)
+        } else {
+            setSelName(null);
+    
+        }
     }
 
     const handleCloseModal = ()=>{
         setShowModal(false)
     } 
-    
-    
+        
     const handleSaveModal = ()=>{
         setShowModal(false)
 
         setSelName(tempSelName);
         // console.log("nameList && selName", nameList, selName);
-        if(nameList){
-            // setNameList(Utils.changeWeight(nameList, name))
+        if(nameList && tempSelName){
+            setNameList(Utils.changeWeight(nameList, tempSelName))
         }
     } 
-
 
     const shuffleList = (evt: React.MouseEvent<HTMLElement>) =>{
         setNameList(Utils.shuffle(props.initialList)); 
@@ -63,14 +61,13 @@ function MainContainer(props: Props) {
             <h3>Drawn names</h3>
             <p>Draw a name from a list. The draw takes into account the results of previous times. Thus, all names are drawn over time.</p>
             
-            {nameList ? <>
-                <p>Today the following name has been selected: <span className='sel_name'>{selName?selName:'NO SELECTION'}</span></p>
-                <p>Select a name between the name drawn</p>
-                <NameListCntr nameList={nameList} selName={selName} setSelName={selOnClickEvent} />
-            </>:
-            <>
-                <Button type="button" title="Start the draw of names" onClick={(ev) => shuffleList(ev)} >Start the draw of names</Button>
-            </>}
+            {!nameList ?
+                <>
+                    <Button type="button" title="Start the draw of names" onClick={(ev) => shuffleList(ev)} >Start the draw of names</Button>
+                </>
+            :
+                <NameListCntr nameList={nameList} selName={selName} setSelName={selOnClickEvent} />  
+            }
             
             <div className='div_result'>
                 <label htmlFor="mytextarea">Initial list:</label>
