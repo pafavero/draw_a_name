@@ -7,7 +7,6 @@ const ElementStyle = styled.div`
     display: block;
     border: 1px solid lightgray;
     border-radius: 5px;
-    background-color: #eee;
     padding: 0 1rem;
     width: 300px;
     margin: 3px;
@@ -15,7 +14,6 @@ const ElementStyle = styled.div`
     font-size: 12px; 
 
     &.is_active{
-        background-color: #fff;
         font-size: 16px; 
     }
 
@@ -42,6 +40,7 @@ type Props = {
     isSelected: boolean;
     isActive: boolean;
     setSelName: Function;
+    lenght: number;
 };
 
 function SelAName(props: Props) {
@@ -64,9 +63,12 @@ function SelAName(props: Props) {
     }
 
     const time = props.obj.time?Utils.dateInHhMmYyMmDd(props.obj.time):'';
+    let color: string = Utils.getColor(props.index/props.lenght);
+    if(!props.isActive)
+        color = '#fff';
     return (
         <ElementStyle className={className} onClick={(ev: React.MouseEvent<HTMLInputElement>) => selOnClickEvent(ev, props.obj.name)} 
-                title={props.isActive?'Select ' + props.obj.name:''} >
+                title={props.isActive?'Select ' + props.obj.name:''} style={{backgroundColor:color}}>
             {props.index + 1}. {props.obj.name} {time}
         </ElementStyle >
 

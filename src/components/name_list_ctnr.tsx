@@ -39,7 +39,7 @@ function NameListCntr(props: Props) {
             time = obj.time?Utils.dateInHhMmYyMmDd(obj.time):'';
         }
         
-        return <SelAName key={keyItem} obj={obj} index={i} isSelected={isSelected} isActive={props.selName?false:true} setSelName={setSelName} />
+        return <SelAName key={keyItem} obj={obj} index={i} isSelected={isSelected} isActive={props.selName?false:true} setSelName={setSelName} lenght={orderListBasedOnWeght.length} />
     })
 
     const nextDraw = (evt: React.MouseEvent<HTMLElement>) =>{
