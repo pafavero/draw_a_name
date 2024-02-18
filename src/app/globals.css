@@ -105,3 +105,9 @@ a {
     color-scheme: dark;
   }
 }
+.div_result {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+

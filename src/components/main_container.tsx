@@ -3,15 +3,11 @@ import { useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import {Utils, StaticObj} from "@/utils/utils";
-import SelAName from "@/components/sel_a_name";
+import NameListCntr from "@/components/name_list_ctnr";
+import Modal from './modal';
 
 const ElementStyle = styled.div`
     
-    .div_result{
-        margin-top: 1rem;
-        display: flex;
-        flex-direction: column;
-    }
 
     button{
         margin: 2px;
@@ -32,17 +28,31 @@ type Props = {
 
 function MainContainer(props: Props) {
     const [selName, setSelName] = useState<string | null>(null);
+    const [tempSelName, setTempSelName] = useState<string | null>(null);
     const [nameList, setNameList] = useState<StaticObj[] | null>(null);
+    const [isShownModal, setShowModal] = useState<boolean>(false);
 
     const selOnClickEvent = (name: string) =>{
         //   console.log("selOnClickEvent(), index:", index);
-        setSelName(name);
+        setTempSelName(name)
+        setShowModal(true)
+    }
+
+    const handleCloseModal = ()=>{
+        setShowModal(false)
+    } 
+    
+    
+    const handleSaveModal = ()=>{
+        setShowModal(false)
+
+        setSelName(tempSelName);
         // console.log("nameList && selName", nameList, selName);
         if(nameList){
             // setNameList(Utils.changeWeight(nameList, name))
         }
+    } 
 
-    }
 
     const shuffleList = (evt: React.MouseEvent<HTMLElement>) =>{
         setNameList(Utils.shuffle(props.initialList)); 
@@ -56,7 +66,7 @@ function MainContainer(props: Props) {
             {nameList ? <>
                 <p>Today the following name has been selected: <span className='sel_name'>{selName?selName:'NO SELECTION'}</span></p>
                 <p>Select a name between the name drawn</p>
-                <SelAName nameList={nameList} selName={selName} setSelName={selOnClickEvent} />
+                <NameListCntr nameList={nameList} selName={selName} setSelName={selOnClickEvent} />
             </>:
             <>
                 <Button type="button" title="Start the draw of names" onClick={(ev) => shuffleList(ev)} >Start the draw of names</Button>
@@ -66,6 +76,7 @@ function MainContainer(props: Props) {
                 <label htmlFor="mytextarea">Initial list:</label>
                 <textarea id="mytextarea" defaultValue={props.initialList}></textarea>
             </div>
+            {isShownModal && <Modal handleClose={handleCloseModal} handleSave={handleSaveModal} name={tempSelName} />}
         </ElementStyle>
     );
 }
