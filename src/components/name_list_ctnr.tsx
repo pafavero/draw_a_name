@@ -27,7 +27,7 @@ function NameListCntr(props: Props) {
 
     const orderListBasedOnWeght: StatisticalObj[] = [...props.nameList]
     orderListBasedOnWeght.sort((a: StatisticalObj,b: StatisticalObj) => b.weight - a.weight)
-    // console.log('list to print====> ', orderListBasedOnWeght);
+    console.log('list to print====> ', orderListBasedOnWeght);
     let time = ''
     const resultList = orderListBasedOnWeght.map(function(obj: StatisticalObj, i: number){
         const keyItem = 'div_name_' + i;

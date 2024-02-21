@@ -41,15 +41,73 @@ export class Utils{
     const ADD_WEIGHT = REDUCE_WEIGHT / (nameList.length - 1);
     const weightList = [...nameList];
     
-    let currentIndex = weightList.length;
+    let selIndex = weightList.length;
+    let selObj: StatisticalObj | null = null;
     for (let currentIndex = 0; currentIndex < weightList.length; currentIndex++) {
       if(weightList[currentIndex].name == selName){
-        weightList[currentIndex].weight -=  REDUCE_WEIGHT;
         weightList[currentIndex].time = new Date();
-      }else
-        weightList[currentIndex].weight += ADD_WEIGHT
+        weightList[currentIndex].weight -=  REDUCE_WEIGHT;
+        selObj = weightList[currentIndex];
+        selIndex = currentIndex;
+      }else{
+        // weightList[currentIndex].weight += ADD_WEIGHT;
+      }
+      weightList[currentIndex].weight = Math.round(weightList[currentIndex].weight * 100000) / 100000
     }
-    return weightList;
+
+    // fix objs with same weight: find all others with the same weight
+    // NONE OF FOLLOWINGS WORK, it is not possible to touch the weight
+    /*const foundObjs: StatisticalObj[] = weightList.filter((item) => item != selObj && item.weight == selObj?.weight);
+    foundObjs.sort((a: StatisticalObj,b: StatisticalObj) => {
+      let aTime = a.time?a.time.getTime():99999999999999999;
+      let bTime = b.time?b.time.getTime():99999999999999999;
+      return bTime - aTime;
+    })*/
+    // increment them
+    /*for (var i = 0; i < foundObjs.length; i++){
+      console.log(selObj?.weight, "compare with", foundObjs[i].name, foundObjs[i].time)
+      foundObjs[i].weight += (0.002 * i);
+    }*/
+    /*if (selObj && foundObjs.length > 0){
+      console.log("yes found!!!")
+      selObj.weight -= (0.001);
+    }*/
+    const  weightTimeList = Utils.changeOrderBasedOnWeightTime(weightList, selObj);
+    return weightTimeList;
+  }
+
+  static changeOrderBasedOnWeightTime(weightList: StatisticalObj[], selObj: StatisticalObj | null){
+    const orderListBasedOnWeght: StatisticalObj[] = [...weightList]
+    orderListBasedOnWeght.sort((a: StatisticalObj,b: StatisticalObj) => b.weight - a.weight)
+    
+    // solution will be here, find if selObject has other with the same weight, the reorder this sublist based on time (easy to de)
+    // insert the subllist in final list (difficut), For esample if selObject in position 5, other two with same weight in position 6, 7
+    // i have to reorder these 3 ones. And then, remove them from original list e insert them again
+    /*
+    const fruits = ["name1", "name2", "name3", "name4", "name5", "name6", "name7", "name8", "name9", "name10", "name11", "name12"];
+
+    yyy = ["new1", "new2", "new3"]; 
+
+    fruits.splice(5, 3, ...yyy);
+    console.log(fruits)
+    */
+    const indexes: number[] = [];
+    const foundObjs: StatisticalObj[] = orderListBasedOnWeght.filter((item, index) => {
+      if (item.weight == selObj?.weight) {
+        indexes.push(index);
+        return true;
+      }
+      return false;
+    });
+    foundObjs.sort((a: StatisticalObj,b: StatisticalObj) => {
+      let aTime = a.time?a.time.getTime(): 99999999999999999;
+      let bTime = b.time?b.time.getTime(): 99999999999999999;
+      return aTime - bTime;
+    });
+    console.log(foundObjs.length, ...foundObjs);
+
+    orderListBasedOnWeght.splice(indexes[0], foundObjs.length, ...foundObjs);
+    return orderListBasedOnWeght;
   }
   
   static checkSum(nameList: StatisticalObj[]){
@@ -72,6 +130,7 @@ export class Utils{
       [
         Utils.padTwoDigits(date.getHours()),
         Utils.padTwoDigits(date.getMinutes()),
+        Utils.padTwoDigits(date.getSeconds()),
       ].join(":") +
       " " +
       [
@@ -116,14 +175,14 @@ export class NameStore {
   
 //     // suppose to peak one pos 0
 //     console.log("  ");
-//     let weightNameList: StatisticalObj[] = changeWeight(shuffleNameList, 0);
+//     let weightNameList: StatisticalObj[] = changWeight(shuffleNameList, 0);
 //     console.log(weightNameList);
 //     checkSum(weightNameList);
   
   
 //     // suppose to peak one pos 4
 //     console.log("  ");
-//     weightNameList = changeWeight(shuffleNameList, 4);
+//     weightNameList = changWeight(shuffleNameList, 4);
 //     console.log(weightNameList);
 //     checkSum(weightNameList);
   
