@@ -12,12 +12,12 @@ export default function Modal(props: Props) {
   const txt = `Do you confirm the selected name ${props.name}?`
   
   const closeOnClickEvent = (evt: React.MouseEvent<HTMLButtonElement>) =>{
-    console.log("closeOnClickEvent() in Modal");
+    // console.log("closeOnClickEvent() in Modal");
     props.handleClose();
   }
 
   const saveOnClickEvent = (evt: React.MouseEvent<HTMLButtonElement>) =>{
-    console.log("saveOnClickEvent() in Modal");
+    // console.log("saveOnClickEvent() in Modal");
     props.handleSave();
   }
   

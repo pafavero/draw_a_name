@@ -8,7 +8,7 @@ export default async function Home() {
   // read the file server-side but async!
   const fileContent = await fs.readFile(process.cwd() + '/public/initial_list.txt', 'utf8');
   const initialList = fileContent.split(',');
-  console.log('fileContent', fileContent, initialList);
+  // console.log('fileContent', fileContent, initialList);
 
   const results = await fs.readFile(process.cwd() + '/public/results.json', 'utf8');
   const jsonResult = JSON.parse(results);
