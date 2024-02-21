@@ -1,4 +1,3 @@
-import Image from "next/image";
 import styles from "./page.module.css";
 import MainContainer from "@/components/main_container";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -7,12 +6,13 @@ import { promises as fs } from 'fs';
 export default async function Home() {
   // read the file server-side but async!
   const fileContent = await fs.readFile(process.cwd() + '/public/initial_list.txt', 'utf8');
-  const initialList = fileContent.split(',');
+  // const initialList: string = fileContent.split(',');
   // console.log('fileContent', fileContent, initialList);
 
   const results = await fs.readFile(process.cwd() + '/public/results.json', 'utf8');
   const jsonResult = JSON.parse(results);
-  console.log('jsonResult', jsonResult);
+  // it is print on the server, no in browser console
+  // console.log('jsonResult', jsonResult);
 
   const currResult = null;
 
@@ -23,7 +23,7 @@ export default async function Home() {
       </div>
 
       <div className={styles.center}>
-        <MainContainer initialList={initialList} currResult={currResult} />
+        <MainContainer initialList={fileContent} currResult={currResult} />
       </div>
       <div className={styles.grid}>
         <a

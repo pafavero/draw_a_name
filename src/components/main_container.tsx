@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import {Utils, StatisticalObj} from "@/utils/utils";
 import NameListCntr from "@/components/name_list_ctnr";
 import Modal from './modal';
+import { init } from 'next/dist/compiled/webpack/webpack';
 
 const ElementStyle = styled.div`
 
@@ -12,21 +13,25 @@ const ElementStyle = styled.div`
         font-weight: bold;
         background-color: lightgray;
     }
-
 `;
 
-
 type Props = {
-    initialList: string[];
+    initialList: string;
     currResult: any
 };
 
 function MainContainer(props: Props) {
+    const [initialList, setInitialList] = useState<string>(props.initialList);
     const [selName, setSelName] = useState<string | null>(null);
     const [tempSelName, setTempSelName] = useState<string | null>(null);
     const [nameList, setNameList] = useState<StatisticalObj[] | null>(null);
     const [isShownModal, setShowModal] = useState<boolean>(false);
 
+    const onChangeInitialList = (evt: React.ChangeEvent<HTMLTextAreaElement>) =>{
+        // console.log(evt);
+        setInitialList(evt.target.value);
+    }
+    
     const selOnClickEvent = (name: string | null) =>{
         //   console.log("selOnClickEvent(), index:", index);
         if (name){
@@ -34,7 +39,6 @@ function MainContainer(props: Props) {
             setShowModal(true)
         } else {
             setSelName(null);
-    
         }
     }
 
@@ -53,7 +57,11 @@ function MainContainer(props: Props) {
     } 
 
     const shuffleList = (evt: React.MouseEvent<HTMLElement>) =>{
-        setNameList(Utils.shuffle(props.initialList)); 
+        const initialL: string[] = initialList.split(',');
+        if (initialL.length > 2)
+            setNameList(Utils.shuffle(initialL));
+        else
+            alert("no enough values");
     }
 
     return (
@@ -71,7 +79,7 @@ function MainContainer(props: Props) {
             
             <div className='div_result'>
                 <label htmlFor="mytextarea">Initial list:</label>
-                <textarea id="mytextarea" defaultValue={props.initialList}></textarea>
+                <textarea id="mytextarea" value={initialList} onChange={onChangeInitialList}></textarea>
             </div>
             {isShownModal && <Modal handleClose={handleCloseModal} handleSave={handleSaveModal} name={tempSelName} />}
         </ElementStyle>
