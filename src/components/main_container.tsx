@@ -13,10 +13,13 @@ const ElementStyle = styled.div`
         flex-direction: column;
     }
 
+    #mytextarea{
+        height: 150px;
+    }
+
     button{
         margin: 2px;
     }
-
 `;
 
 
@@ -30,13 +33,10 @@ function MainContainer(props: Props) {
     const [nameList, setNameList] = useState<StaticObj[] | null>(null);
 
     const selOnClickEvent = (name: string) =>{
-        //   console.log("selOnClickEvent(), index:", index);
         setSelName(name);
-        // console.log("nameList && selName", nameList, selName);
         if(nameList){
             setNameList(Utils.changeWeight(nameList, name))
         }
-
     }
 
     const shuffleList = (evt: React.MouseEvent<HTMLElement>) =>{
@@ -45,8 +45,7 @@ function MainContainer(props: Props) {
 
     return (
         <ElementStyle>
-            <h3>Drawn names</h3>
-            <p>Draw a name from a list. The draw takes into account the results of previous times. Thus, all names are drawn over time.</p>
+            <h3>Draw a name</h3>
             
             {nameList ? <>
                 <p>Today the following name has been selected: {selName?selName:'NO SELECTION'}</p>
@@ -56,7 +55,6 @@ function MainContainer(props: Props) {
             <>
                 <Button type="button" title="sdfdsfds" onClick={(ev) => shuffleList(ev)} >Start the draw of names</Button>
             </>}
-            
             <div className='div_result'>
                 <label htmlFor="mytextarea">Initial list:</label>
                 <textarea id="mytextarea" defaultValue={props.initialList}></textarea>

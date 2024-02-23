@@ -10,9 +10,9 @@ export default async function Home() {
   const initialList = fileContent.split(',');
   console.log('fileContent', fileContent, initialList);
 
-  const results = await fs.readFile(process.cwd() + '/public/results.json', 'utf8');
-  const jsonResult = JSON.parse(results);
-  console.log('jsonResult', jsonResult);
+  // const results = await fs.readFile(process.cwd() + '/public/results.json', 'utf8');
+  // const jsonResult = JSON.parse(results);
+  // console.log('jsonResult', jsonResult);
 
   const currResult = null;
 
@@ -51,7 +51,7 @@ export default async function Home() {
         </a>
 
         <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app" 
           className={styles.card}
           target="_blank"
           rel="noopener noreferrer"

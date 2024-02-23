@@ -1,7 +1,6 @@
 'use client'
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
-import {NameStore} from "@/utils/utils";
 import {Utils, StaticObj} from "@/utils/utils";
 
 const ElementStyle = styled.div`
@@ -23,8 +22,6 @@ type Props = {
 };
 
 function SelAName(props: Props) {
-    const nameStore = new NameStore()
-
     const selOnClickEvent = (evt: React.MouseEvent<HTMLElement>, name: string) =>{
         console.log("selOnClickEvent() in SelAName", evt, name);
         props.setSelName(name);
