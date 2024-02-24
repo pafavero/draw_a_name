@@ -23,12 +23,12 @@ function NameListCntr(props: Props) {
     const setSelName = (name: string) =>{
         // console.log("selOnClickEvent() in SelAName", name);
         props.setSelName(name);
-    }
+    };
 
     const orderListBasedOnWeght: StatisticalObj[] = [...props.nameList]
     orderListBasedOnWeght.sort((a: StatisticalObj,b: StatisticalObj) => b.weight - a.weight)
     // console.log('list to print====> ', orderListBasedOnWeght);
-    let time = ''
+    let time = '';
     const resultList = orderListBasedOnWeght.map(function(obj: StatisticalObj, i: number){
         const keyItem = 'div_name_' + i;
         let className = 'div_name';

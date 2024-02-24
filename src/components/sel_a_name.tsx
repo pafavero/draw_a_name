@@ -44,11 +44,21 @@ type Props = {
 
 function SelAName(props: Props) {
 
+
     const selOnClickEvent = (evt: React.MouseEvent<HTMLElement>, name: string) =>{
         // console.log("selOnClickEvent() in SelAName", evt, name);
         if (props.isActive)
             props.setSelName(name);
-    }
+    };
+
+    // const api<T> = (url: string): Promise<T> {
+    //     return fetch(url).then(response => {
+    //         if (!response.ok) {
+    //           throw new Error(response.statusText)
+    //         }
+    //         return response.json() as Promise<T>
+    //     });
+    // };
 
     // const isWinner = (i: number) => {if(i == 0) return <span>  &lt;== is winner!</span>; else '';}
     const keyItem = 'div_name_' + props.index;
@@ -56,6 +66,7 @@ function SelAName(props: Props) {
     if (props.isSelected){
         className += ' sel';
     }
+
     if (props.isActive){
         className += ' is_active';
     }
