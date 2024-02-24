@@ -1,8 +1,8 @@
 'use client'
 import styled from 'styled-components';
 import Button from 'react-bootstrap/Button';
-import SelAName from "@/components/sel_a_name";
-import {Utils, StatisticalObj} from "@/utils/utils";
+import SelAName from '@/components/sel_a_name';
+import {Utils, StatisticalObj} from '@/utils/utils';
 
 const ElementStyle = styled.div`
     .div_name_list_inner{
@@ -39,13 +39,14 @@ function NameListCntr(props: Props) {
             time = obj.time?Utils.dateInHhMmYyMmDd(obj.time):'';
         }
         
-        return <SelAName key={keyItem} obj={obj} index={i} isSelected={isSelected} isActive={props.selName?false:true} setSelName={setSelName} lenght={orderListBasedOnWeght.length} />
-    })
+        return <SelAName key={keyItem} obj={obj} index={i} isSelected={isSelected} isActive={props.selName?false:true} 
+            setSelName={setSelName} lenght={orderListBasedOnWeght.length} />;
+    });
 
     const nextDraw = (evt: React.MouseEvent<HTMLElement>) =>{
         // console.log("selOnClickEvent() in SelAName", evt, name);
         props.setSelName(null);
-    }
+    };
 
 
     return (

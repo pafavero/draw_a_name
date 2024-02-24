@@ -1,5 +1,5 @@
-import styles from "./page.module.css";
-import MainContainer from "@/components/main_container";
+import styles from './page.module.css';
+import MainContainer from '@/components/main_container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { promises as fs } from 'fs';
 

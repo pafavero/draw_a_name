@@ -1,11 +1,10 @@
-'use client'
+'use client';
 import { useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
-import {Utils, StatisticalObj} from "@/utils/utils";
-import NameListCntr from "@/components/name_list_ctnr";
+import {Utils, StatisticalObj} from '@/utils/utils';
+import NameListCntr from '@/components/name_list_ctnr';
 import Modal from './modal';
-import { init } from 'next/dist/compiled/webpack/webpack';
 
 const ElementStyle = styled.div`
 
@@ -35,16 +34,16 @@ function MainContainer(props: Props) {
     const selOnClickEvent = (name: string | null) =>{
         //   console.log("selOnClickEvent(), index:", index);
         if (name){
-            setTempSelName(name)
-            setShowModal(true)
+            setTempSelName(name);
+            setShowModal(true);
         } else {
             setSelName(null);
         }
     }
 
     const handleCloseModal = ()=>{
-        setShowModal(false)
-    } 
+        setShowModal(false);
+    };
         
     const handleSaveModal = ()=>{
         setShowModal(false)
@@ -54,15 +53,15 @@ function MainContainer(props: Props) {
         if(nameList && tempSelName){
             setNameList(Utils.changeWeight(nameList, tempSelName))
         }
-    } 
+    }; 
 
     const shuffleList = (evt: React.MouseEvent<HTMLElement>) =>{
         const initialL: string[] = initialList.split(',');
         if (initialL.length > 2)
             setNameList(Utils.shuffle(initialL));
         else
-            alert("no enough values");
-    }
+            alert('no enough values');
+    };
 
     return (
         <ElementStyle>

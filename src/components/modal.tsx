@@ -14,12 +14,12 @@ export default function Modal(props: Props) {
   const closeOnClickEvent = (evt: React.MouseEvent<HTMLButtonElement>) =>{
     // console.log("closeOnClickEvent() in Modal");
     props.handleClose();
-  }
+  };
 
   const saveOnClickEvent = (evt: React.MouseEvent<HTMLButtonElement>) =>{
     // console.log("saveOnClickEvent() in Modal");
     props.handleSave();
-  }
+  };
   
   return(
     <BModal show={true} size= 'sm' centered={true}
@@ -35,5 +35,5 @@ export default function Modal(props: Props) {
         </Button>
       </BModal.Footer>
     </BModal>
-  )
+  );
 };
