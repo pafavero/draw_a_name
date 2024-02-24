@@ -98,7 +98,15 @@ function MainContainer(props: Props) {
             console.log('hier new code!!!');
 
             const xxx = api(TEST_URL);
-            console.log('xxx', xxx);
+            xxx.then(
+                function(value) {
+                    console.log('successful', value);
+                },
+                function(value) {
+                    console.log('fail', value);
+                });
+              
+            // console.log('xxx', xxx);
 
 
         } else {

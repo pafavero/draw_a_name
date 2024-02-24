@@ -24,7 +24,7 @@ export default function handler(
       where r.username = '${id}'
       order by r.start_date`);
     }*/
-    res.status(200);  //.json(/*{rslt: rslt?.rows}*/);
+    res.status(200).json({ message: 'Hello from Next.js!' });  //.json(/*{rslt: rslt?.rows}*/);
   }
 
 }
