@@ -29,7 +29,7 @@ function MainContainer(props: Props) {
     const onChangeInitialList = (evt: React.ChangeEvent<HTMLTextAreaElement>) =>{
         // console.log(evt);
         setInitialList(evt.target.value);
-    }
+    };
     
     const selOnClickEvent = (name: string | null) =>{
         //   console.log("selOnClickEvent(), index:", index);
@@ -39,7 +39,7 @@ function MainContainer(props: Props) {
         } else {
             setSelName(null);
         }
-    }
+    };
 
     const handleCloseModal = ()=>{
         setShowModal(false);
@@ -51,7 +51,7 @@ function MainContainer(props: Props) {
         setSelName(tempSelName);
         // console.log("nameList && selName", nameList, selName);
         if(nameList && tempSelName){
-            setNameList(Utils.changeWeight(nameList, tempSelName))
+            setNameList(Utils.changeWeight(nameList, tempSelName));
         }
     }; 
 
