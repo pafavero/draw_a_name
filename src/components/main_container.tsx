@@ -120,14 +120,14 @@ function MainContainer(props: Props) {
             <h3>Drawn names</h3>
             <p>Draw a name from a list. The draw takes into account the results of previous times. Thus, all names are drawn over time.</p>
             
-            {!nameList ?
+            {!isListChangable && nameList ?
+                <NameListCntr nameList={nameList} selName={selName} setSelName={selOnClickEvent} />  
+            :
                 <>
                     <Button type="button" title="Start the draw of names" onClick={(ev) => shuffleList(ev)} disabled={isListChangable}>
                         Start the draw of names
                     </Button>
                 </>
-            :
-                <NameListCntr nameList={nameList} selName={selName} setSelName={selOnClickEvent} />  
             }
             
             <InitialList initialList={initialList} setInitialList={setInitialList} 

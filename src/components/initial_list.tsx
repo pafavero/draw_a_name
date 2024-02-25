@@ -15,7 +15,7 @@ const ElementStyle = styled.div`
 
         textarea{
             width: 100%;
-            height: 100px;
+            height: 50px;
             &.editable {
                 height: 100px;
                 font-weight: bold;
@@ -58,6 +58,12 @@ function InitialList(props: Props) {
     const onClickSave = (evt: React.MouseEvent<HTMLElement>) =>{
         setShowModal4Init(true);
     };
+    
+    const onClickCancel = (evt: React.MouseEvent<HTMLElement>) =>{
+        props.setInitialListChangable(false);
+        setInitialList(props.initialList);
+        setInitialListChange(false);
+    };
 
     const handleCloseModalInit = ()=>{
         setShowModal4Init(false);
@@ -86,9 +92,14 @@ function InitialList(props: Props) {
                     Reset all. Modify initial list
                 </Button>
             :
-                <Button className='btn_set_init_list btn-sm' disabled={!isInitialListChanged} onClick={onClickSave}>
-                    Modify initial list
-                </Button>
+                <>
+                    <Button className='btn_set_init_list btn-sm' onClick={onClickCancel}>
+                        Cancel
+                    </Button>
+                    <Button className='btn_set_init_list btn-sm' disabled={!isInitialListChanged} onClick={onClickSave}>
+                        Modify initial list
+                    </Button>
+                </>
             }
             {isShownModal4Init && <ModalInit handleClose={handleCloseModalInit} handleSave={handleSaveModalInit} />}
         
