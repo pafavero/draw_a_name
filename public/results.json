@@ -1,10 +1,1 @@
-[
-    {"name": "XXX", "weight": 1},
-    {"name": "Susanna", "weight": 1}, 
-    {"name": "Noah", "weight": 1}, 
-    {"name": "Emma", "weight": 1}, 
-    {"name": "Oliver", "weight": 1}, 
-    {"name": "Charlotte", "weight": 1}, 
-    {"name": "James", "weight": 1}, 
-    {"name": "Amelia", "weight": 1}
-]
+[{"name":" Oliver","weight":1,"time":null},{"name":"Mark","weight":1,"time":null},{"name":" Charlotte","weight":1,"time":null},{"name":" Susanna","weight":1,"time":null},{"name":" Peter","weight":1,"time":null},{"name":" Amelia\n","weight":1,"time":null},{"name":" Emma","weight":1,"time":null},{"name":" Noah","weight":0.2,"time":"2024-02-25T15:53:41.929Z"},{"name":" James","weight":0.2,"time":"2024-02-25T15:55:10.056Z"}]

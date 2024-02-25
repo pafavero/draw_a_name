@@ -40,8 +40,19 @@ type Props = {
     currResult: any
 };
 
-async function api<T>(url: string): Promise<T> {
-    return await fetch(url)
+type APIResults = {
+    message: string;
+}
+
+async function saveResultAPI<T>(url: string, body: StatisticalObj[]): Promise<T> {
+    return await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    })
         .then(response => {
         if (!response.ok) {
             throw new Error(response.statusText);
@@ -55,6 +66,8 @@ function MainContainer(props: Props) {
 
     const SERVER_URL =  'http://localhost:3000/';  // process.env.REACT_APP_SERVER_URL;
     const TEST_URL =  SERVER_URL + 'api/save_result';
+    // https://stackoverflow.com/questions/65199051/how-to-get-page-url-or-hostname-in-nextjs-project
+    // console.log('window.location.host', window.location.host);
 
     // init list ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     const [initialList, setInitialList] = useState<string>(props.initialList);
@@ -93,22 +106,6 @@ function MainContainer(props: Props) {
         if (name){
             setTempSelName(name);
             setShowModal(true);
-
-
-            console.log('hier new code!!!');
-
-            const xxx = api(TEST_URL);
-            xxx.then(
-                function(value) {
-                    console.log('successful', value);
-                },
-                function(value) {
-                    console.log('fail', value);
-                });
-              
-            // console.log('xxx', xxx);
-
-
         } else {
             setSelName(null);
         }
@@ -124,15 +121,39 @@ function MainContainer(props: Props) {
         setSelName(tempSelName);
         // console.log("nameList && selName", nameList, selName);
         if(nameList && tempSelName){
-            setNameList(Utils.changeWeight(nameList, tempSelName));
+            const xxx = Utils.changeWeight(nameList, tempSelName);
+            setNameList(xxx);
+            const promiseApi: Promise<APIResults> = saveResultAPI(TEST_URL, xxx);
+            promiseApi.then(
+                function(value) {
+                    console.log('successful:', value.message);
+                },
+                function(value) {
+                    console.log('fail:', value.message);
+                }
+            );
         }
     }; 
 
     const shuffleList = (evt: React.MouseEvent<HTMLElement>) =>{
         const initialL: string[] = initialList.split(',');
-        if (initialL.length > 2)
-            setNameList(Utils.shuffle(initialL));
-        else
+        if (initialL.length > 2){
+            const xxx = Utils.shuffle(initialL);
+            setNameList(xxx);
+            // console.log(xxx, nameList);
+            if(xxx){
+                const promiseApi: Promise<APIResults> = saveResultAPI(TEST_URL, xxx);
+                console.log('promiseApi', promiseApi);
+                promiseApi.then(
+                    function(value) {
+                        console.log('successful:', value.message);
+                    },
+                    function(value) {
+                        console.log('fail:', value.message);
+                    }
+                );
+            }
+        } else
             alert('no enough values');
     };
 
