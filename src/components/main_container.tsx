@@ -4,8 +4,8 @@ import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import {Utils, StatisticalObj} from '@/utils/utils';
 import NameListCntr from '@/components/name_list_ctnr';
+import InitialList from '@/components/initial_list';
 import Modal from './modal';
-import ModalInit from './modal_init';
 
 const ElementStyle = styled.div`
 
@@ -14,25 +14,6 @@ const ElementStyle = styled.div`
         background-color: lightgray;
     }
 
-    .div_init_list>div{
-        flex-direction: row;
-        align-items: flex-start;
-        height: 250px;
-    }
-    
-    .div_init_list textarea{
-        width: 80%;
-        height: 250px;
-    }
-
-    .div_init_list button{
-        align-self: start;
-        margin-bottom: 50px;
-    }
-
-    .btn_set_init_list{
-        width: 20%;
-    }
 `;
 
 type Props = {
@@ -71,30 +52,7 @@ function MainContainer(props: Props) {
 
     // init list ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     const [initialList, setInitialList] = useState<string>(props.initialList);
-    const [isInitialListChanged, setInitialListChange] = useState<boolean>(false);
-    const [isShownModal4Init, setShowModal4Init] = useState<boolean>(false);
-    
-    const onChangeInitialList = (evt: React.ChangeEvent<HTMLTextAreaElement>) =>{
-        // console.log(evt);
-        setInitialListChange(true);
-        setInitialList(evt.target.value);
-    };
-    
-    const onCLickInitialList = (evt: React.MouseEvent<HTMLElement>) =>{
-        setShowModal4Init(true);
-    };
-
-    const handleCloseModalInit = ()=>{
-        setShowModal4Init(false);
-        setInitialList(props.initialList);
-        setInitialListChange(false);
-    };
-        
-    const handleSaveModalInit = ()=>{
-        setShowModal4Init(false);
-        setInitialListChange(false);
-        // console.log("nameList && selName", nameList, selName);
-    }; 
+    const [isListChangable, setInitialListChangable] = useState<boolean>(false);
 
     // select list~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     const [selName, setSelName] = useState<string | null>(null);
@@ -164,7 +122,7 @@ function MainContainer(props: Props) {
             
             {!nameList ?
                 <>
-                    <Button type="button" title="Start the draw of names" onClick={(ev) => shuffleList(ev)} disabled={isInitialListChanged}>
+                    <Button type="button" title="Start the draw of names" onClick={(ev) => shuffleList(ev)} disabled={isListChangable}>
                         Start the draw of names
                     </Button>
                 </>
@@ -172,16 +130,8 @@ function MainContainer(props: Props) {
                 <NameListCntr nameList={nameList} selName={selName} setSelName={selOnClickEvent} />  
             }
             
-            <div className='div_init_list'>
-                <label htmlFor="mytextarea" >Initial list:</label>
-                <div>
-                    <textarea id="mytextarea" value={initialList} onChange={onChangeInitialList}></textarea>
-                    <Button className='btn_set_init_list btn-sm' disabled={!isInitialListChanged} onClick={onCLickInitialList}>
-                        Apply new Initial List Reset all
-                    </Button>
-                    {isShownModal4Init && <ModalInit handleClose={handleCloseModalInit} handleSave={handleSaveModalInit} name={tempSelName} />}
-                </div>
-            </div>
+            <InitialList initialList={initialList} setInitialList={setInitialList} 
+                isListChangable={isListChangable} setInitialListChangable={setInitialListChangable}/>
             {isShownModal && <Modal handleClose={handleCloseModal} handleSave={handleSaveModal} name={tempSelName} />}
         </ElementStyle>
     );

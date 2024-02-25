@@ -2,14 +2,13 @@ import BModal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 type Props = {
-  name: string | null;
   handleClose: Function;
   handleSave: Function;
 };
 
 
 export default function ModalInit(props: Props) {
-  const txt = 'Do you confirm the init list will be changed?'
+  const txt = 'Do you confirm the init list will be changed?';
   
   const closeOnClickEvent = (evt: React.MouseEvent<HTMLButtonElement>) =>{
     props.handleClose();
