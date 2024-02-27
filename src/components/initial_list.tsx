@@ -35,7 +35,7 @@ const ElementStyle = styled.div`
 
 type Props = {
     initialList: string;
-    setInitialList: Function;
+    setInitialList2: Function;
     isListChangable: boolean;
     setInitialListChangable: Function;
 };
@@ -73,7 +73,7 @@ function InitialList(props: Props) {
     };
         
     const handleSaveModalInit = ()=>{
-        props.setInitialList(initialList);
+        props.setInitialList2(initialList);
         setShowModal4Init(false);
         props.setInitialListChangable(false);
         setInitialListChange(false);

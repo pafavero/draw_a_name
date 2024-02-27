@@ -50,11 +50,27 @@ function MainContainer(props: Props) {
     const [initialList, setInitialList] = useState<string>(props.initialList);
     const [isListChangable, setInitialListChangable] = useState<boolean>(false);
 
+    const setInitialListAndReset = (newInitialList: string) =>{
+        setInitialList(newInitialList);
+        setNameList([]);
+        setSelName(null);
+        const promiseApi: Promise<APIResults> = saveResultAPI(TEST_URL, []);
+        promiseApi.then(
+            function(value) {
+                console.log('successful:', value.message);
+            },
+            function(value) {
+                console.log('fail:', value.message);
+            }
+        );
+    };
+
     // select list~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     const [selName, setSelName] = useState<string | null>(null);
     const [tempSelName, setTempSelName] = useState<string | null>(null);
-    const [nameList, setNameList] = useState<StatisticalObj[] | null>(null);
+    const [nameList, setNameList] = useState<StatisticalObj[]>([]);
     const [isShownModal, setShowModal] = useState<boolean>(false);
+
     const selOnClickEvent = (name: string | null) =>{
         //   console.log("selOnClickEvent(), index:", index);
         if (name){
@@ -74,16 +90,16 @@ function MainContainer(props: Props) {
 
         setSelName(tempSelName);
         // console.log("nameList && selName", nameList, selName);
-        if(nameList && tempSelName){
-            const xxx = Utils.changeWeight(nameList, tempSelName);
-            setNameList(xxx);
-            const promiseApi: Promise<APIResults> = saveResultAPI(TEST_URL, xxx);
+        if(nameList.length > 0 && tempSelName){
+            const nameListWithWeight = Utils.changeWeight(nameList, tempSelName);
+            setNameList(nameListWithWeight);
+            const promiseApi: Promise<APIResults> = saveResultAPI(TEST_URL, nameListWithWeight);
             promiseApi.then(
                 function(value) {
-                    console.log('successful:', value.message);
+                    // console.log('successful:', value.message);
                 },
                 function(value) {
-                    console.log('fail:', value.message);
+                    console.error('fail:', value.message);
                 }
             );
         }
@@ -113,9 +129,10 @@ function MainContainer(props: Props) {
     return (
         <ElementStyle>
             <h3>Drawn names</h3>
-            <p>Draw a name from a list. The draw takes into account the results of previous times. Thus, all names are drawn over time.</p>
+            <p>Draw a name from a list. The draw takes into account the results of previous times. Thus, all names are drawn over time.
+                {nameList.length}</p>
             
-            {!isListChangable && nameList ?
+            {!isListChangable && nameList.length > 0 ?
                 <NameListCntr nameList={nameList} selName={selName} setSelName={selOnClickEvent} />  
             :
                 <>
@@ -125,7 +142,7 @@ function MainContainer(props: Props) {
                 </>
             }
             
-            <InitialList initialList={initialList} setInitialList={setInitialList} 
+            <InitialList initialList={initialList} setInitialList2={setInitialListAndReset} 
                 isListChangable={isListChangable} setInitialListChangable={setInitialListChangable}/>
             {isShownModal && <Modal handleClose={handleCloseModal} handleSave={handleSaveModal} name={tempSelName} />}
         </ElementStyle>

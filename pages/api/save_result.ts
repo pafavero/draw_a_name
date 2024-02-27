@@ -23,6 +23,6 @@ export default function handler(
     (async () => {
       await fs.writeFile(process.cwd() + '/public/results.json', JSON.stringify(body), 'utf8');
     })();
-    res.status(200).json({ message: 'Here go the possitive result!' });  //.json(/*{rslt: rslt?.rows}*/);
+    res.status(200).json({ message: 'ok' });
   }
 }  

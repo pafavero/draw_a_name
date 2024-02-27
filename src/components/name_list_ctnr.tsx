@@ -5,6 +5,11 @@ import SelAName from '@/components/sel_a_name';
 import {Utils, StatisticalObj} from '@/utils/utils';
 
 const ElementStyle = styled.div`
+    {
+        background-color: #eee;
+        padding: 1rem;
+    }
+
     .div_name_list_inner{
         height: 300px;
         overflow-y: auto;
@@ -25,7 +30,7 @@ function NameListCntr(props: Props) {
         props.setSelName(name);
     };
 
-    const orderListBasedOnWeght: StatisticalObj[] = [...props.nameList]
+    const orderListBasedOnWeght: StatisticalObj[] = [...props.nameList];
     orderListBasedOnWeght.sort((a: StatisticalObj,b: StatisticalObj) => b.weight - a.weight)
     // console.log('list to print====> ', orderListBasedOnWeght);
     let time = '';
