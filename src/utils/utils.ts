@@ -8,7 +8,7 @@ export interface StatisticalObj {
 
 export class Utils{
 
-  static shuffle(initialList: string[]) {
+  static shuffle(initialList: string[]): StatisticalObj[] {
     /*
      * https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
      * Fisher–Yates shuffle
@@ -55,30 +55,16 @@ export class Utils{
       weightList[currentIndex].weight = Math.round(weightList[currentIndex].weight * 100000) / 100000
     }
 
-    // fix objs with same weight: find all others with the same weight
-    // NONE OF FOLLOWINGS WORK, it is not possible to touch the weight
-    /*const foundObjs: StatisticalObj[] = weightList.filter((item) => item != selObj && item.weight == selObj?.weight);
-    foundObjs.sort((a: StatisticalObj,b: StatisticalObj) => {
-      let aTime = a.time?a.time.getTime():99999999999999999;
-      let bTime = b.time?b.time.getTime():99999999999999999;
-      return bTime - aTime;
-    })*/
-    // increment them
-    /*for (var i = 0; i < foundObjs.length; i++){
-      console.log(selObj?.weight, "compare with", foundObjs[i].name, foundObjs[i].time)
-      foundObjs[i].weight += (0.002 * i);
-    }*/
-    /*if (selObj && foundObjs.length > 0){
-      console.log("yes found!!!")
-      selObj.weight -= (0.001);
-    }*/
     const  weightTimeList = Utils.changeOrderBasedOnWeightTime(weightList, selObj);
     return weightTimeList;
   }
 
   static changeOrderBasedOnWeightTime(weightList: StatisticalObj[], selObj: StatisticalObj | null){
+    /**
+     * Fix order of objs with same weight: in this case teh time should be taken into account.
+     */
     const orderListBasedOnWeght: StatisticalObj[] = [...weightList]
-    orderListBasedOnWeght.sort((a: StatisticalObj,b: StatisticalObj) => b.weight - a.weight)
+    orderListBasedOnWeght.sort((a: StatisticalObj,b: StatisticalObj) => b.weight - a.weight);
     
     const indexes: number[] = [];
     const foundObjs: StatisticalObj[] = orderListBasedOnWeght.filter((item, index) => {
@@ -89,8 +75,8 @@ export class Utils{
       return false;
     });
     foundObjs.sort((a: StatisticalObj,b: StatisticalObj) => {
-      let aTime = a.time?a.time.getTime(): 99999999999999999;
-      let bTime = b.time?b.time.getTime(): 99999999999999999;
+      let aTime = a.time?a.time.getTime(): 999999999999999;
+      let bTime = b.time?b.time.getTime(): 999999999999999;
       return aTime - bTime;
     });
     // console.log(foundObjs.length, ...foundObjs);
@@ -110,18 +96,18 @@ export class Utils{
   }
 
   static padTwoDigits(num: number) {
-    return num.toString().padStart(2, "0");
+    return num.toString().padStart(2, '0');
   }
 
-  static dateInHhMmYyMmDd(date: Date, dateDiveder: string = "-") {
+  static dateInHhMmYyMmDd(date: Date, dateDiveder: string = '-') {
   
     return (
       [
         Utils.padTwoDigits(date.getHours()),
         Utils.padTwoDigits(date.getMinutes()),
         Utils.padTwoDigits(date.getSeconds()),
-      ].join(":") +
-      " " +
+      ].join(':') +
+      ' ' +
       [
         Utils.padTwoDigits(date.getDate()),
         Utils.padTwoDigits(date.getMonth() + 1),
@@ -133,6 +119,6 @@ export class Utils{
   static getColor(value: number): string {
     //value from 0 to 1
     var hue = ((1 - value) * 120).toString(10);
-    return ["hsl(", hue, ",100%,50%)"].join("");
+    return ['hsl(', hue, ',100%,50%)'].join('');
   }
 }

@@ -83,7 +83,6 @@ function InitialList(props: Props) {
 
     return (
         <ElementStyle className='div_init_list'>
-            
             <label htmlFor="mytextarea" >Initial list:</label>
             <textarea id="mytextarea" value={initialList} onChange={onChangeInitialList} 
                     disabled={!props.isListChangable} className={classNameDisabled}></textarea>

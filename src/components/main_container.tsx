@@ -9,10 +9,6 @@ import Modal from './modal';
 
 const ElementStyle = styled.div`
 
-    .sel_name{
-        font-weight: bold;
-        background-color: lightgray;
-    }
 
 `;
 
@@ -94,20 +90,19 @@ function MainContainer(props: Props) {
     }; 
 
     const shuffleList = (evt: React.MouseEvent<HTMLElement>) =>{
-        const initialL: string[] = initialList.split(',');
-        if (initialL.length > 2){
-            const xxx = Utils.shuffle(initialL);
-            setNameList(xxx);
-            // console.log(xxx, nameList);
-            if(xxx){
-                const promiseApi: Promise<APIResults> = saveResultAPI(TEST_URL, xxx);
-                console.log('promiseApi', promiseApi);
+        const initialArray: string[] = initialList.split(',');
+        if (initialArray.length > 2){
+            const shuffledList: StatisticalObj[] = Utils.shuffle(initialArray);
+            setNameList(shuffledList);
+            if(shuffledList){
+                const promiseApi: Promise<APIResults> = saveResultAPI(TEST_URL, shuffledList);
+                // console.log('promiseApi', promiseApi);
                 promiseApi.then(
                     function(value) {
-                        console.log('successful:', value.message);
+                        // console.log('successful:', value.message);
                     },
                     function(value) {
-                        console.log('fail:', value.message);
+                        console.error('fail:', value.message);
                     }
                 );
             }
