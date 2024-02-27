@@ -89,7 +89,7 @@ function InitialList(props: Props) {
                     disabled={!props.isListChangable} className={classNameDisabled}></textarea>
             {!props.isListChangable ?
                 <Button className='btn_set_init_list btn-sm' onClick={onClickReset}>
-                    Reset all. Modify initial list
+                    Modify initial list
                 </Button>
             :
                 <>
