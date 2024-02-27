@@ -22,13 +22,13 @@ const ElementStyle = styled.div`
             }
         }
 
-        button{
-            align-self: start;
-            margin-bottom: 50px;
+        .btn_cancel{
+            margin-right: 3px;
         }
 
         .btn_set_init_list{
-
+            align-self: start;
+            margin-bottom: 50px;
         }
     }
 `;
@@ -93,10 +93,10 @@ function InitialList(props: Props) {
                 </Button>
             :
                 <>
-                    <Button className='btn_set_init_list btn-sm' onClick={onClickCancel}>
+                    <Button className='btn_cancel btn-sm' onClick={onClickCancel}>
                         Cancel
                     </Button>
-                    <Button className='btn_set_init_list btn-sm' disabled={!isInitialListChanged} onClick={onClickSave}>
+                    <Button className='btn_save btn-sm' disabled={!isInitialListChanged} onClick={onClickSave}>
                         Modify initial list
                     </Button>
                 </>
