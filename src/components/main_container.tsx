@@ -129,8 +129,7 @@ function MainContainer(props: Props) {
     return (
         <ElementStyle>
             <h3>Drawn names</h3>
-            <p>Draw a name from a list. The draw takes into account the results of previous times. Thus, all names are drawn over time.
-                {nameList.length}</p>
+            <p>Draw a name from a list. The draw takes into account the results of previous times. Thus, all names are drawn over time.</p>
             
             {!isListChangable && nameList.length > 0 ?
                 <NameListCntr nameList={nameList} selName={selName} setSelName={selOnClickEvent} />  
