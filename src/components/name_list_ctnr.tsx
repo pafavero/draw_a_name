@@ -2,7 +2,8 @@
 import styled from 'styled-components';
 import Button from 'react-bootstrap/Button';
 import SelAName from '@/components/sel_a_name';
-import {Utils, StatisticalObj} from '@/utils/utils';
+import {Utils} from '@/utils/utils';
+import StatisticalObj from '@/components/statistical_obj';
 
 const ElementStyle = styled.div`
     {

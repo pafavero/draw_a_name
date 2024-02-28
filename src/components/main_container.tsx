@@ -2,7 +2,8 @@
 import { useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
-import {Utils, StatisticalObj} from '@/utils/utils';
+import {Utils} from '@/utils/utils';
+import StatisticalObj from '@/components/statistical_obj';
 import NameListCntr from '@/components/name_list_ctnr';
 import InitialList from '@/components/initial_list';
 import Modal from './modal';

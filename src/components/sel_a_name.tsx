@@ -1,6 +1,7 @@
 'use client'
 import styled from 'styled-components';
-import {StatisticalObj, Utils} from '@/utils/utils';
+import {Utils} from '@/utils/utils';
+import StatisticalObj from '@/components/statistical_obj';
 
 const ElementStyle = styled.div`
     display: block;

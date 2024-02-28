@@ -1,10 +1,5 @@
 
-export interface StatisticalObj {
-  name: string
-  weight: number
-  time: Date | null
-}
-  
+import StatisticalObj from '@/components/statistical_obj'; 
 
 export class Utils{
 
