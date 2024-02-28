@@ -6,6 +6,7 @@ import {Utils, StatisticalObj} from '@/utils/utils';
 import NameListCntr from '@/components/name_list_ctnr';
 import InitialList from '@/components/initial_list';
 import Modal from './modal';
+import {APIBody, APIResults} from '@/components/api_body';
 
 const ElementStyle = styled.div`
 
@@ -14,14 +15,11 @@ const ElementStyle = styled.div`
 
 type Props = {
     initialList: string;
-    currResult: any
+    currResult: StatisticalObj[]
+    selName: string | null;
 };
 
-type APIResults = {
-    message: string;
-}
-
-async function saveResultAPI<T>(url: string, body: StatisticalObj[]): Promise<T> {
+async function saveResultAPI<T>(url: string, body: APIBody): Promise<T> {
     return await fetch(url, {
         method: 'POST',
         headers: {
@@ -54,21 +52,13 @@ function MainContainer(props: Props) {
         setInitialList(newInitialList);
         setNameList([]);
         setSelName(null);
-        const promiseApi: Promise<APIResults> = saveResultAPI(TEST_URL, []);
-        promiseApi.then(
-            function(value) {
-                console.log('successful:', value.message);
-            },
-            function(value) {
-                console.log('fail:', value.message);
-            }
-        );
+        handleAPI(nameList, null);
     };
 
     // select list~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    const [selName, setSelName] = useState<string | null>(null);
+    const [selName, setSelName] = useState<string | null>(props.selName);
     const [tempSelName, setTempSelName] = useState<string | null>(null);
-    const [nameList, setNameList] = useState<StatisticalObj[]>([]);
+    const [nameList, setNameList] = useState<StatisticalObj[]>(props.currResult);
     const [isShownModal, setShowModal] = useState<boolean>(false);
 
     const selOnClickEvent = (name: string | null) =>{
@@ -93,15 +83,7 @@ function MainContainer(props: Props) {
         if(nameList.length > 0 && tempSelName){
             const nameListWithWeight = Utils.changeWeight(nameList, tempSelName);
             setNameList(nameListWithWeight);
-            const promiseApi: Promise<APIResults> = saveResultAPI(TEST_URL, nameListWithWeight);
-            promiseApi.then(
-                function(value) {
-                    // console.log('successful:', value.message);
-                },
-                function(value) {
-                    console.error('fail:', value.message);
-                }
-            );
+            handleAPI(nameList, tempSelName);
         }
     }; 
 
@@ -111,19 +93,26 @@ function MainContainer(props: Props) {
             const shuffledList: StatisticalObj[] = Utils.shuffle(initialArray);
             setNameList(shuffledList);
             if(shuffledList){
-                const promiseApi: Promise<APIResults> = saveResultAPI(TEST_URL, shuffledList);
-                // console.log('promiseApi', promiseApi);
-                promiseApi.then(
-                    function(value) {
-                        // console.log('successful:', value.message);
-                    },
-                    function(value) {
-                        console.error('fail:', value.message);
-                    }
-                );
+                handleAPI(shuffledList, selName);
             }
         } else
             alert('no enough values');
+    };
+
+    const handleAPI = (nameList: StatisticalObj[], selName: string | null)=>{
+        const body: APIBody = {
+            nameList,
+            selName,
+        };
+        const promiseApi: Promise<APIResults> = saveResultAPI(TEST_URL, body);
+        promiseApi.then(
+            function(value) {
+                // console.log('successful:', value.message);
+            },
+            function(value) {
+                console.error('fail:', value.message);
+            }
+        );
     };
 
     return (
