@@ -3,6 +3,7 @@ import { useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import ModalInit from './modal_init';
+import {APIResults} from '@/components/api_body';
 
 const ElementStyle = styled.div`
     &.div_init_list{
@@ -40,7 +41,26 @@ type Props = {
     setInitialListChangable: Function;
 };
 
+async function saveInitListAPI<T>(url: string, body: string): Promise<T> {
+    return await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    })
+        .then(response => {
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        return response.json() as Promise<T>;
+    });
+};
+
 function InitialList(props: Props) {
+    const SERVER_URL =  'http://localhost:3000/';  // process.env.REACT_APP_SERVER_URL;
+    const TEST_URL =  SERVER_URL + 'api/save_initial_list';
 
     const [isInitialListChanged, setInitialListChange] = useState<boolean>(false);
     const [initialList, setInitialList] = useState<string>(props.initialList);
@@ -77,9 +97,22 @@ function InitialList(props: Props) {
         setShowModal4Init(false);
         props.setInitialListChangable(false);
         setInitialListChange(false);
+        handleAPI(initialList);
     };
 
     const classNameDisabled = props.isListChangable?'editable':'';
+
+    const handleAPI = (body: string)=>{
+        const promiseApi: Promise<APIResults> = saveInitListAPI(TEST_URL, body);
+        promiseApi.then(
+            function(value) {
+                // console.log('successful:', value.message);
+            },
+            function(value) {
+                console.error('fail:', value.message);
+            }
+        );
+    };
 
     return (
         <ElementStyle className='div_init_list'>
