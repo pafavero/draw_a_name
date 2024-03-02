@@ -1,18 +1,12 @@
 'use client';
 import { useState} from 'react';
 import Button from 'react-bootstrap/Button';
-import styled from 'styled-components';
 import {Utils} from '@/utils/utils';
 import StatisticalObj from '@/components/statistical_obj';
 import NameListCntr from '@/components/name_list_ctnr';
 import InitialList from '@/components/initial_list';
 import Modal from './modal';
 import {APIBody, APIResults} from '@/components/api_body';
-
-const ElementStyle = styled.div`
-
-
-`;
 
 type Props = {
     initialList: string;
@@ -37,13 +31,12 @@ async function saveResultAPI<T>(url: string, body: APIBody): Promise<T> {
     });
 };
 
-
 function MainContainer(props: Props) {
-
-    const SERVER_URL =  'http://localhost:3000/';  // process.env.REACT_APP_SERVER_URL;
+    /*
+     * Main container of the app.
+    */
+    const SERVER_URL =  process.env.REACT_APP_SERVER_URL;
     const TEST_URL =  SERVER_URL + 'api/save_result';
-    // https://stackoverflow.com/questions/65199051/how-to-get-page-url-or-hostname-in-nextjs-project
-    // console.log('window.location.host', window.location.host);
 
     // init list ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     const [initialList, setInitialList] = useState<string>(props.initialList);
@@ -56,7 +49,6 @@ function MainContainer(props: Props) {
         handleAPI(nameList, null);
     };
 
-    // select list~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     const [selName, setSelName] = useState<string | null>(props.selName);
     const [tempSelName, setTempSelName] = useState<string | null>(null);
     const [nameList, setNameList] = useState<StatisticalObj[]>(props.currResult);
@@ -117,7 +109,7 @@ function MainContainer(props: Props) {
     };
 
     return (
-        <ElementStyle>
+        <div>
             <h3>Drawn names</h3>
             <p>Draw a name from a list. The draw takes into account the results of previous times. Thus, all names are drawn over time.</p>
             
@@ -134,7 +126,7 @@ function MainContainer(props: Props) {
             <InitialList initialList={initialList} setInitialList2={setInitialListAndReset} 
                 isListChangable={isListChangable} setInitialListChangable={setInitialListChangable}/>
             {isShownModal && <Modal handleClose={handleCloseModal} handleSave={handleSaveModal} name={tempSelName} />}
-        </ElementStyle>
+        </div>
     );
 }
 
