@@ -14,23 +14,6 @@ type Props = {
   selName: string | null;
 };
 
-async function saveResultAPI<T>(url: string, body: APIBody): Promise<T> {
-    return await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-      .then(response => {
-      if (!response.ok) {
-          throw new Error(response.statusText);
-      }
-      return response.json() as Promise<T>;
-    });
-};
-
 function MainContainer(props: Props) {
   /*
     * Main container of the app.
@@ -107,6 +90,23 @@ function MainContainer(props: Props) {
         }
     );
   };
+
+  async function saveResultAPI<T>(url: string, body: APIBody): Promise<T> {
+    return await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+      .then(response => {
+      if (!response.ok) {
+          throw new Error(response.statusText);
+      }
+      return response.json() as Promise<T>;
+    });
+};
 
   return (
     <div>

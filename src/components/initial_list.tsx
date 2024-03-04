@@ -41,23 +41,6 @@ type Props = {
   setInitialListChangable: Function;
 };
 
-async function saveInitListAPI<T>(url: string, body: string): Promise<T> {
-  return await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  })
-    .then(response => {
-      if (!response.ok) {
-          throw new Error(response.statusText);
-      }
-      return response.json() as Promise<T>;
-  });
-};
-
 function InitialList(props: Props) {
   const SERVER_URL =  process.env.REACT_APP_SERVER_URL;
   const TEST_URL =  SERVER_URL + 'api/save_initial_list';
@@ -112,6 +95,23 @@ function InitialList(props: Props) {
             console.error('fail:', value.message);
         }
       );
+  };
+
+  async function saveInitListAPI<T>(url: string, body: string): Promise<T> {
+    return await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+      .then(response => {
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        return response.json() as Promise<T>;
+    });
   };
 
   return (
