@@ -1,22 +1,32 @@
 import styles from './page.module.css';
 import MainContainer from '@/components/main_container';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { promises as fs } from 'fs';
+import fs from 'fs';
 import StatisticalObj from '@/components/statistical_obj';
 import {APIBody} from '@/components/api_body';
 
 export default async function Home() {
-  // read the file server-side but async!
-  const initialList = await fs.readFile(process.cwd() + '/public/initial_list.txt', 'utf8');
-  const results = await fs.readFile(process.cwd() + '/public/results.json', 'utf8');
-  const currResult: APIBody = JSON.parse(results);
+  const initialFilePath: string = process.cwd() + '/public/initial_list.txt';
+  let initialList = '';
+  if (fs.existsSync(initialFilePath)) {
+    initialList = await fs.promises.readFile(process.cwd() + '/public/initial_list.txt', 'utf8');
+  }
 
-  if(!currResult.nameList){
-    currResult.nameList = [];
-  }
-  if(!currResult.selName){
-    currResult.selName = null;
-  }
+  const resultPath = process.cwd() + '/public/results.json';
+  let currResult: APIBody = {
+    nameList: [],
+    selName: null
+  };
+  if (fs.existsSync(resultPath)) {
+    const results = await fs.promises.readFile(resultPath, 'utf8');
+    currResult = JSON.parse(results);
+    if(!currResult.nameList){
+      currResult.nameList = [];
+    }
+    if(!currResult.selName){
+      currResult.selName = null;
+    }
+  }  
 
   // set date as Date (not as a string)
   let item: StatisticalObj; 
