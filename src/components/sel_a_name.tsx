@@ -52,16 +52,6 @@ function SelAName(props: Props) {
             props.setSelName(name);
     };
 
-    // const api<T> = (url: string): Promise<T> {
-    //     return fetch(url).then(response => {
-    //         if (!response.ok) {
-    //           throw new Error(response.statusText)
-    //         }
-    //         return response.json() as Promise<T>
-    //     });
-    // };
-
-    // const isWinner = (i: number) => {if(i == 0) return <span>  &lt;== is winner!</span>; else '';}
     const keyItem = 'div_name_' + props.index;
     let className = 'div_name';
     if (props.isSelected){

@@ -9,12 +9,7 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
-  // res.status(200).json({ message: 'Hello from Next.js!' });
-  // console.log('###############################################################', req);
-  // await runMiddleware(req, res, cors);
-  if (req.method === 'OPTIONS') {
-    res.status(200);
-  } else if (req.method === 'GET') {
+  if (req.method === 'GET') {
     console.log('Method get is not useful');
     res.status(200).json({message: 'Method get is not useful'});
   } else if (req.method === 'POST') {

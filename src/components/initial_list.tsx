@@ -59,7 +59,7 @@ async function saveInitListAPI<T>(url: string, body: string): Promise<T> {
 };
 
 function InitialList(props: Props) {
-    const SERVER_URL =  'http://localhost:3000/';  // process.env.REACT_APP_SERVER_URL;
+    const SERVER_URL =  process.env.REACT_APP_SERVER_URL;
     const TEST_URL =  SERVER_URL + 'api/save_initial_list';
 
     const [isInitialListChanged, setInitialListChange] = useState<boolean>(false);
