@@ -28,7 +28,6 @@ export default async function Home() {
       }*/
     } 
   }
-  // console.log(currResult);
 
   return (
     <main className={styles.main}>
