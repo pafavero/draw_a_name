@@ -34,14 +34,13 @@ bun dev
 
 - Repeat the process to draw names as needed.
 
-###Technologies Used
-React
-Next.js
-Next.js
-JavaScript
-Typescript
-HTML
-CSS
+### Technologies Used
+- React
+- Next.js
+- JavaScript
+- Typescript
+- HTML
+- CSS
 
 ### License
 This project is licensed under the MIT License. See the LICENSE file for details.
