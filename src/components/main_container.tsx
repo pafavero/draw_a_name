@@ -19,7 +19,7 @@ function MainContainer(props: Props) {
     * Main container of the app.
   */
   const SERVER_URL =  process.env.NEXT_PUBLIC_SERVER_URL;
-  const TEST_URL =  SERVER_URL + '/api/save_result';
+  const TEST_URL =  SERVER_URL + 'api/save_result';
   // console.log('TEST_URL:', TEST_URL);
 
   // init list ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
