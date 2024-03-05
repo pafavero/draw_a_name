@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import fs from 'fs';
 import StatisticalObj from '@/components/statistical_obj';
 import {APIBody} from '@/components/api_body';
+import {Utils} from '@/utils/utils';
 
 export default async function Home() {
   const initialFilePath: string = process.cwd() + '/public/initial_list.txt';
@@ -22,6 +23,15 @@ export default async function Home() {
     currResult = JSON.parse(results);
     if(!currResult.nameList){
       currResult.nameList = [];
+    }else{
+      // console.log(currResult.nameList);
+      let item: StatisticalObj; 
+      for (item of currResult.nameList) {
+        if(item.time){
+          item.time = new Date(item.time);
+        } 
+      }
+      currResult.nameList = Utils.changeOrderBasedOnWeightTimeAtInit(currResult.nameList);
     }
     if(!currResult.selName){
       currResult.selName = null;
@@ -29,15 +39,7 @@ export default async function Home() {
   }  
 
   // set date as Date (not as a string)
-  let item: StatisticalObj; 
-  for (item of currResult.nameList) {
-    if(item.time){
-      item.time = new Date(item.time);
-      /*if (!maxTime || maxTime < item.time){
-        maxTime = item.time;
-      }*/
-    } 
-  }
+  
 
   return (
     <main className={styles.main}>

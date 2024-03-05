@@ -56,7 +56,8 @@ export class Utils{
 
   static changeOrderBasedOnWeightTime(weightList: StatisticalObj[], selObj: StatisticalObj | null){
     /**
-     * Fix order of objs with same weight: in this case teh time should be taken into account.
+     * Order objs based on weight and time.
+     * Objs with same weight are reordered based on time.
      */
     const orderListBasedOnWeght: StatisticalObj[] = [...weightList]
     orderListBasedOnWeght.sort((a: StatisticalObj,b: StatisticalObj) => b.weight - a.weight);
@@ -77,6 +78,37 @@ export class Utils{
     // console.log(foundObjs.length, ...foundObjs);
 
     orderListBasedOnWeght.splice(indexes[0], foundObjs.length, ...foundObjs);
+    return orderListBasedOnWeght;
+  }
+
+  static changeOrderBasedOnWeightTimeAtInit(weightList: StatisticalObj[]){
+    /**
+     * Order objs based on weight and time at initialization.
+     */
+    const orderListBasedOnWeght: StatisticalObj[] = [...weightList];
+    orderListBasedOnWeght.sort((a: StatisticalObj,b: StatisticalObj) => b.weight - a.weight);
+
+    const weightSet = new Set<number>(orderListBasedOnWeght.map(item => item.weight));
+    // console.log('weightSet', weightSet);
+    let e: number;
+    for (const e of Array.from(weightSet)) {
+      // console.log(e);
+      const indexes: number[] = [];
+      const foundObjs: StatisticalObj[] = orderListBasedOnWeght.filter((item, index) => {
+        if (item.weight == e) {
+          indexes.push(index);
+          return true;
+        }
+        return false;
+      });
+      foundObjs.sort((a: StatisticalObj, b: StatisticalObj) => {
+        let aTime = a.time?a.time.getTime(): 999999999999999;
+        let bTime = b.time?b.time.getTime(): 999999999999999;
+        return aTime - bTime;
+      });
+      orderListBasedOnWeght.splice(indexes[0], foundObjs.length, ...foundObjs);
+
+    }
     return orderListBasedOnWeght;
   }
   
