@@ -18,9 +18,9 @@ export default function handler(
     const body = req.body;
     // console.log('method post:', body);
     (async () => {
-      const path: string = process.cwd() + '/public/results.json';
+      const path: string = process.cwd() + '/data/results.json';
       fs.closeSync(fs.openSync(path, 'w'));
-      await fs.promises.writeFile(process.cwd() + '/public/results.json', JSON.stringify(body), 'utf8');
+      await fs.promises.writeFile(process.cwd() + '/data/results.json', JSON.stringify(body), 'utf8');
     })();
     res.status(200).json({ message: 'ok' });
   }

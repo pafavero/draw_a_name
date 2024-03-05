@@ -19,7 +19,7 @@ export default function handler(
     const body = req.body;
     // console.log('method post:', body);
     (async () => {
-      await fs.writeFile(process.cwd() + '/public/initial_list.txt', body, 'utf8');
+      await fs.writeFile(process.cwd() + '/data/initial_list.txt', body, 'utf8');
     })();
     res.status(200).json({ message: 'ok' });
   }
