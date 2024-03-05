@@ -2,6 +2,8 @@
 ## React Name Drawer
 Welcome to the React Name Drawer application! This simple React application allows you to draw a name from a list of names, taking into account the results of previous draws. This means that all names are eventually drawn over time, ensuring fairness in the selection process.
 
+App Example: https://draw-a-name-1nig.vercel.app/
+
 ### Features
 - Draw a name from a list of names.
 - Keep track of previous draws to ensure fairness in subsequent selections.
