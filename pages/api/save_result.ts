@@ -16,7 +16,7 @@ export default function handler(
     res.status(200).json({message: 'Method get is not useful'});
   } else if (req.method === 'POST') {
     const body = req.body;
-    // console.log('method post:', body);
+    console.log('method post:', body);
     (async () => {
       const path: string = '/tmp/results.json';
       fs.closeSync(fs.openSync(path, 'w'));

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { promises as fs } from 'fs';
+import fs from 'fs';
  
 type ResponseData = {
   message: string
@@ -19,7 +19,10 @@ export default function handler(
     const body = req.body;
     // console.log('method post:', body);
     (async () => {
-      await fs.writeFile(process.cwd() + '/data/initial_list.txt', body, 'utf8');
+
+      const path: string = '/tmp/initial_list.txt';
+      fs.closeSync(fs.openSync(path, 'w'));
+      await fs.promises.writeFile(path, JSON.stringify(body), 'utf8');
     })();
     res.status(200).json({ message: 'ok' });
   }

@@ -7,13 +7,16 @@ import {APIBody} from '@/components/api_body';
 import {Utils} from '@/utils/utils';
 
 export default async function Home() {
-  const initialFilePath: string = process.cwd() + '/data/initial_list.txt';
+  const initialFilePath: string = '/tmp/initial_list.txt';
   let initialList = '';
   if (fs.existsSync(initialFilePath)) {
-    initialList = await fs.promises.readFile(process.cwd() + '/data/initial_list.txt', 'utf8');
+    initialList = await fs.promises.readFile('/tmp/initial_list.txt', 'utf8');
+  }else{
+    // fake list
+    initialList = 'Mark, Susanna, Peter, Noah, Emma, Oliver, Charlotte, James, Amelia';
   }
 
-  const resultPath = process.cwd() + '/data/results.json';
+  const resultPath = '/tmp/results.json';
   let currResult: APIBody = {
     nameList: [],
     selName: null
