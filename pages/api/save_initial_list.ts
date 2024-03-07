@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import fs from 'fs';
- 
+// import fs from 'fs';
+import conn from '@/utils/db';
+
 type ResponseData = {
   message: string
 }
@@ -20,9 +21,10 @@ export default function handler(
     // console.log('method post:', body);
     (async () => {
 
-      const path: string = '/tmp/initial_list.txt';
-      fs.closeSync(fs.openSync(path, 'w'));
-      await fs.promises.writeFile(path, JSON.stringify(body), 'utf8');
+      // const path: string = '/tmp/initial_list.txt';
+      // fs.closeSync(fs.openSync(path, 'w'));
+      // await fs.promises.writeFile(path, JSON.stringify(body), 'utf8');
+      const rslt = await conn.query(`update book_a_seat.draw_a_name set initial_list='${JSON.stringify(body)}'`);
     })();
     res.status(200).json({ message: 'ok' });
   }
