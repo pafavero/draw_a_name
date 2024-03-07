@@ -5,44 +5,48 @@ import fs from 'fs';
 import StatisticalObj from '@/components/statistical_obj';
 import {APIBody} from '@/components/api_body';
 import {Utils} from '@/utils/utils';
+import conn from '@/utils/db';
+import { QueryResult } from 'pg';
+
+type SqlQuery = {
+  initial_list: string | null;
+  result: string | null;
+}
 
 export default async function Home() {
-  const initialFilePath: string = '/tmp/initial_list.txt';
-  let initialList = '';
-  if (fs.existsSync(initialFilePath)) {
-    initialList = await fs.promises.readFile('/tmp/initial_list.txt', 'utf8');
-  }else{
-    // fake list
-    initialList = 'Mark, Susanna, Peter, Noah, Emma, Oliver, Charlotte, James, Amelia';
-  }
-
-  const resultPath = '/tmp/results.json';
+  const rslt = await conn.query('select initial_list, result from book_a_seat.draw_a_name limit 1');
+  
+  let initialList: string | null = 'Mark, Susanna, Peter, Noah, Emma, Oliver, Charlotte, James, Amelia';
   let currResult: APIBody = {
     nameList: [],
     selName: null
   };
-  if (fs.existsSync(resultPath)) {
-    const results = await fs.promises.readFile(resultPath, 'utf8');
-    currResult = JSON.parse(results);
-    if(!currResult.nameList){
-      currResult.nameList = [];
-    }else{
-      // console.log(currResult.nameList);
-      let item: StatisticalObj; 
-      for (item of currResult.nameList) {
-        if(item.time){
-          item.time = new Date(item.time);
-        } 
-      }
-      currResult.nameList = Utils.changeOrderBasedOnWeightTimeAtInit(currResult.nameList);
-    }
-    if(!currResult.selName){
-      currResult.selName = null;
-    }
-  }  
 
-  // set date as Date (not as a string)
-  
+  if(rslt.rows.length > 0){
+    const queryResult: SqlQuery = rslt.rows[0];
+    initialList = queryResult['initial_list'];
+    // console.log('------------->>', initialList);
+
+    if(queryResult['result']){
+      currResult = JSON.parse(queryResult['result']);
+      if(!currResult.nameList){
+        currResult.nameList = [];
+      }else{
+        // console.log(currResult.nameList);
+        let item: StatisticalObj; 
+        for (item of currResult.nameList) {
+          if(item.time){
+            item.time = new Date(item.time);
+          } 
+        }
+        currResult.nameList = Utils.changeOrderBasedOnWeightTimeAtInit(currResult.nameList);
+      }
+      if(!currResult.selName){
+        currResult.selName = null;
+      }
+      console.log(currResult.selName);
+    }
+  }
 
   return (
     <main className={styles.main}>
