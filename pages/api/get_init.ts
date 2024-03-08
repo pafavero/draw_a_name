@@ -3,7 +3,7 @@ import conn from '@/utils/db';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 type SqlDataByInit = {
-  initialList: string | null;
+  initial_list: string | null;
   result: string | null;
 }
 
@@ -14,7 +14,7 @@ type DataByInit = {
 
 
 const getInitData = (async () => {
-  const rslt = await conn.query('select initial_list as initialList, result from book_a_seat.draw_a_name limit 1');
+  const rslt = await conn.query('select initial_list, result from book_a_seat.draw_a_name limit 1');
   
   let initialNames: string[] = ['Mark, Susanna, Peter, Noah, Emma, Oliver, Charlotte, James, Amelia'];
   let result: APIBody = {
@@ -24,8 +24,8 @@ const getInitData = (async () => {
 
   if(rslt.rows.length > 0){
     const queryResult: SqlDataByInit = rslt.rows[0];
-    if(queryResult['initialList']){
-      initialNames = queryResult['initialList'].split(',');
+    if(queryResult['initial_list']){
+      initialNames = queryResult['initial_list'].split(',');
     }
     // console.log('------------->>', initialNames);
 

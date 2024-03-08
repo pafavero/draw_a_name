@@ -22,7 +22,8 @@ export default function handler(
       // const path: string = '/tmp/initial_list.txt';
       // fs.closeSync(fs.openSync(path, 'w'));
       // await fs.promises.writeFile(path, JSON.stringify(body), 'utf8');
-      const rslt = await conn.query(`update book_a_seat.draw_a_name set initial_list='${JSON.stringify(body)}'`);
+      const stringifyValue =  JSON.stringify(body);
+      const rslt = await conn.query(`update book_a_seat.draw_a_name set initial_list='${stringifyValue.substring(1, stringifyValue.length-1)}'`);
     })();
     res.status(200).json({ message: 'ok' });
   }
