@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import styled from 'styled-components';
 import Button from 'react-bootstrap/Button';
 import SelAName from '@/components/sel_a_name';
@@ -32,7 +32,7 @@ function NameListCntr(props: Props) {
   };
 
   const orderListBasedOnWeght: StatisticalObj[] = [...props.nameList];
-  orderListBasedOnWeght.sort((a: StatisticalObj,b: StatisticalObj) => b.weight - a.weight)
+  orderListBasedOnWeght.sort((a: StatisticalObj,b: StatisticalObj) => b.weight - a.weight);
   // console.log('list to print====> ', orderListBasedOnWeght);
   let time = '';
   const resultList = orderListBasedOnWeght.map(function(obj: StatisticalObj, i: number){

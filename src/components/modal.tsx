@@ -9,7 +9,7 @@ type Props = {
 
 
 export default function Modal(props: Props) {
-  const txt = `Do you confirm the selected name ${props.name}?`
+  const txt = `Do you confirm the selected name ${props.name}?`;
   
   const closeOnClickEvent = (evt: React.MouseEvent<HTMLButtonElement>) =>{
     // console.log("closeOnClickEvent() in Modal");

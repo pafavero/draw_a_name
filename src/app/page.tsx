@@ -1,59 +1,67 @@
+'use client';
 import styles from './page.module.css';
 import MainContainer from '@/components/main_container';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import fs from 'fs';
 import StatisticalObj from '@/components/statistical_obj';
 import {APIBody} from '@/components/api_body';
 import {Utils} from '@/utils/utils';
-import conn from '@/utils/db';
-import { QueryResult } from 'pg';
+import { useState, useEffect} from 'react';
 
-type SqlQuery = {
-  initial_list: string | null;
-  result: string | null;
-}
+type DataByInit = {
+  initialNames: string[];
+  result: APIBody;
+} | null;
 
-export default async function Home() {
-  const rslt = await conn.query('select initial_list, result from book_a_seat.draw_a_name limit 1');
-  
-  let initialList: string | null = 'Mark, Susanna, Peter, Noah, Emma, Oliver, Charlotte, James, Amelia';
-  let currResult: APIBody = {
-    nameList: [],
-    selName: null
+export default function Home() {
+  const SERVER_URL =  process.env.NEXT_PUBLIC_SERVER_URL;
+  const TEST_URL =  SERVER_URL + 'api/get_init';
+
+  // const [initialNames, setInitialNames] = useState<string[] | null>(null);
+  const [dataByInit, setDataByInit] = useState<DataByInit>(null);
+
+  async function getInitDataAPI<T>(url: string): Promise<T> {
+    return await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(response => {
+      if (!response.ok) {
+          throw new Error(response.statusText);
+      }
+      return response.json() as Promise<T>;
+    });
   };
 
-  if(rslt.rows.length > 0){
-    const queryResult: SqlQuery = rslt.rows[0];
-    initialList = queryResult['initial_list'];
-    // console.log('------------->>', initialList);
-
-    if(queryResult['result']){
-      currResult = JSON.parse(queryResult['result']);
-      if(!currResult.nameList){
-        currResult.nameList = [];
-      }else{
-        // console.log(currResult.nameList);
+  useEffect(() => {
+    // only in dev mode is called 2 times 
+    console.log('==============> user effect');
+    const promiseApi: Promise<DataByInit> = getInitDataAPI<DataByInit>(TEST_URL);
+    promiseApi.then((rslt: DataByInit)=>{
+      // console.log('rslt', r.initialNames);
+      if(rslt?.result){
         let item: StatisticalObj; 
-        for (item of currResult.nameList) {
+        for (item of rslt.result.nameList) {
+          // console.log('item.time', item.time);
           if(item.time){
             item.time = new Date(item.time);
           } 
         }
-        currResult.nameList = Utils.changeOrderBasedOnWeightTimeAtInit(currResult.nameList);
+        rslt.result.nameList = Utils.changeOrderBasedOnWeightTimeAtInit(rslt.result.nameList);
       }
-      if(!currResult.selName){
-        currResult.selName = null;
-      }
-      console.log(currResult.selName);
-    }
-  }
+      setDataByInit(rslt);
+    });
+  }, [TEST_URL]);
 
   return (
     <main className={styles.main}>
       <div className={styles.description}></div>
 
       <div className={styles.center}>
-        <MainContainer initialList={initialList} currResult={currResult.nameList} selName={currResult.selName}/>
+        {dataByInit &&<MainContainer initialList={dataByInit.initialNames} 
+            currResult={dataByInit.result.nameList} selName={dataByInit.result.selName}/>}
       </div>
     </main>
   );

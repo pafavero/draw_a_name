@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import styled from 'styled-components';
 import {Utils} from '@/utils/utils';
 import StatisticalObj from '@/components/statistical_obj';

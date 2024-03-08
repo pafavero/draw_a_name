@@ -35,7 +35,7 @@ const ElementStyle = styled.div`
 `;
 
 type Props = {
-  initialList: string | null;
+  initialList: string[];
   setInitialList2: Function;
   isListChangable: boolean;
   setInitialListChangable: Function;
@@ -46,7 +46,7 @@ function InitialList(props: Props) {
   const TEST_URL =  SERVER_URL + 'api/save_initial_list';
 
   const [isInitialListChanged, setInitialListChange] = useState<boolean>(false);
-  const [initialList, setInitialList] = useState<string>(props.initialList?props.initialList:'');
+  const [initialList, setInitialList] = useState<string[]>(props.initialList);
   const [isShownModal4Init, setShowModal4Init] = useState<boolean>(false);
 
   const onClickReset = (evt: React.MouseEvent<HTMLElement>) =>{
@@ -55,7 +55,7 @@ function InitialList(props: Props) {
   
   const onChangeInitialList = (evt: React.ChangeEvent<HTMLTextAreaElement>) =>{
     setInitialListChange(true);
-    setInitialList(evt.target.value);
+    setInitialList(evt.target.value.split(','));
   };
 
   const onClickSave = (evt: React.MouseEvent<HTMLElement>) =>{
@@ -64,13 +64,13 @@ function InitialList(props: Props) {
   
   const onClickCancel = (evt: React.MouseEvent<HTMLElement>) =>{
     props.setInitialListChangable(false);
-    setInitialList(props.initialList?props.initialList:'');
+    setInitialList(props.initialList);
     setInitialListChange(false);
   };
 
   const handleCloseModalInit = ()=>{
     setShowModal4Init(false);
-    setInitialList(props.initialList?props.initialList:'');
+    setInitialList(props.initialList);
     props.setInitialListChangable(false);
     setInitialListChange(false);
   };
@@ -85,8 +85,8 @@ function InitialList(props: Props) {
 
   const classNameDisabled = props.isListChangable?'editable':'';
 
-  const handleAPI = (body: string)=>{
-      const promiseApi: Promise<APIResults> = saveInitListAPI(TEST_URL, body);
+  const handleAPI = (body: string[])=>{
+      const promiseApi: Promise<APIResults> = saveInitListAPI(TEST_URL, body.toString());
       promiseApi.then(
         function(value) {
             // console.log('successful:', value.message);

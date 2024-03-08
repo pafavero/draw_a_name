@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-// import fs from 'fs';
 import conn from '@/utils/db';
 
 type ResponseData = {
@@ -10,7 +9,6 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
-  // console.log('##########', req);
   if (req.method === 'OPTIONS') {
     res.status(200);
   } else if (req.method === 'GET') {

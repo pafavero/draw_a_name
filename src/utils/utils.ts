@@ -9,7 +9,7 @@ export class Utils{
      * Fisher–Yates shuffle
      */
 
-    let initialMap: StatisticalObj[] = initialList.map((item) => {return {name: item, weight: 1, time: null}});
+    let initialMap: StatisticalObj[] = initialList.map((item) => {return {name: item, weight: 1, time: null};});
 
     let currentIndex = initialMap.length;
     let randomIndex;
@@ -47,7 +47,7 @@ export class Utils{
       }else{
         // weightList[currentIndex].weight += ADD_WEIGHT;
       }
-      weightList[currentIndex].weight = Math.round(weightList[currentIndex].weight * 100000) / 100000
+      weightList[currentIndex].weight = Math.round(weightList[currentIndex].weight * 100000) / 100000;
     }
 
     const  weightTimeList = Utils.changeOrderBasedOnWeightTime(weightList, selObj);
@@ -59,7 +59,7 @@ export class Utils{
      * Order objs based on weight and time.
      * Objs with same weight are reordered based on time.
      */
-    const orderListBasedOnWeght: StatisticalObj[] = [...weightList]
+    const orderListBasedOnWeght: StatisticalObj[] = [...weightList];
     orderListBasedOnWeght.sort((a: StatisticalObj,b: StatisticalObj) => b.weight - a.weight);
     
     const indexes: number[] = [];
@@ -115,7 +115,7 @@ export class Utils{
   static checkSum(nameList: StatisticalObj[]){
     // use reduce() method to find the sum
     var sum = nameList.reduce((accumulator, currentValue) => {
-      return accumulator + currentValue.weight
+      return accumulator + currentValue.weight;
     },0);
   
     console.log('sum', sum);
@@ -127,7 +127,11 @@ export class Utils{
   }
 
   static dateInHhMmYyMmDd(date: Date, dateDiveder: string = '-') {
-  
+    if (!(date instanceof Date)){
+      console.error('date is not type Date!');
+      return '';
+    }
+
     return (
       [
         Utils.padTwoDigits(date.getHours()),

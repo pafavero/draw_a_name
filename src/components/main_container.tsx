@@ -9,7 +9,7 @@ import Modal from './modal';
 import {APIBody, APIResults} from '@/components/api_body';
 
 type Props = {
-  initialList: string | null;
+  initialList: string[];
   currResult: StatisticalObj[]
   selName: string | null;
 };
@@ -23,10 +23,10 @@ function MainContainer(props: Props) {
   // console.log('TEST_URL:', TEST_URL);
 
   // init list ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  const [initialList, setInitialList] = useState<string | null>(props.initialList);
+  const [initialList, setInitialList] = useState<string[]>(props.initialList);
   const [isListChangable, setInitialListChangable] = useState<boolean>(false);
 
-  const setInitialListAndReset = (newInitialList: string) =>{
+  const setInitialListAndReset = (newInitialList: string[]) =>{
     setInitialList(newInitialList);
     setNameList([]);
     setSelName(null);
@@ -65,18 +65,14 @@ function MainContainer(props: Props) {
   }; 
 
   const shuffleList = (evt: React.MouseEvent<HTMLElement>) =>{
-    if(initialList){
-      const initialArray: string[] = initialList.split(',');
-      if (initialArray.length > 2){
-          const shuffledList: StatisticalObj[] = Utils.shuffle(initialArray);
-          setNameList(shuffledList);
-          if(shuffledList){
-              handleAPI(shuffledList, selName);
-          }
-      } else
-          alert('no enough values');
-      
-    }    
+    if (initialList.length > 2){
+        const shuffledList: StatisticalObj[] = Utils.shuffle(initialList);
+        setNameList(shuffledList);
+        if(shuffledList){
+            handleAPI(shuffledList, selName);
+        }
+    } else
+        alert('no enough values');
   };
 
   const handleAPI = (nameList: StatisticalObj[], selName: string | null)=>{
@@ -110,7 +106,7 @@ function MainContainer(props: Props) {
       }
       return response.json() as Promise<T>;
     });
-};
+  };
 
   return (
     <div>
